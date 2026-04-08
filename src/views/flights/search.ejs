@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+
+<div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-5">
+  
+  <h2 class="text-3xl font-bold mb-6 text-center text-purple-700">
+    Search Flights
+  </h2>
+
+  <form action="/flights/search" method="POST" class="space-y-4">
+
+    <input type="text" name="from" placeholder="From"
+      class="w-full p-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 outline-none" required />
+
+    <input type="text" name="to" placeholder="To"
+      class="w-full p-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 outline-none" required />
+
+    <input type="date" name="date"
+      class="w-full p-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 outline-none" required />
+
+    <button class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition">
+      Search Flights
+    </button>
+
+  </form>
+</div>
+<%- include('../partials/footer') %>

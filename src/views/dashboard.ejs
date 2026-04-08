@@ -1,0 +1,19 @@
+<%- include('./partials/header') %>
+
+<h2>Available Flights</h2>
+
+<% flights.forEach(f => { %>
+  <div style="border:1px solid black; margin:10px; padding:10px;">
+    
+    <p><strong><%= f.from_city %> → <%= f.to_city %></strong></p>
+    <p>Departure: <%= f.departure_time %></p>
+    <p>Price: ₹<%= f.price %></p>
+
+    <form action="/book" method="POST">
+      <input type="hidden" name="user_id" value="1">
+      <input type="hidden" name="flight_id" value="<%= f.id %>">
+      <button type="submit">Book</button>
+    </form>
+
+  </div>
+<% }) %>

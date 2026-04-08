@@ -1,0 +1,43 @@
+<%- include('../partials/header') %>
+
+<div class="max-w-md mx-auto mt-10">
+
+  <h2 class="text-xl font-bold mb-6 text-center text-purple-300">
+    Confirm Booking
+  </h2>
+
+  <div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-6">
+
+    <form action="/book" method="POST" class="space-y-4">
+
+ <input type="hidden" name="flight_id" value="<%= flight.id %>" />
+
+      <input 
+        type="text" 
+        name="name" 
+        placeholder="Your Name"
+        class="w-full p-2 rounded bg-black/30 border border-purple-400/30 text-white placeholder-gray-300"
+        required 
+      />
+
+      <input 
+        type="email" 
+        name="email" 
+        placeholder="Email"
+        class="w-full p-2 rounded bg-black/30 border border-purple-400/30 text-white placeholder-gray-300"
+        required 
+      />
+
+      <button 
+        type="submit"
+        class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-2 rounded hover:opacity-90 transition"
+      >
+        Confirm Booking
+      </button>
+
+    </form>
+
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
