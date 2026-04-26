@@ -17,7 +17,40 @@ router.get('/search', searchFlights);
 router.post('/ticket', async (req, res) => {
   if (!req.session.user) {
     req.session.redirectAfterLogin = req.originalUrl;
-
+res.render("flights", { flights });const flights = [
+  {
+    id: 1,
+    from: "DEL",
+    to: "BLR",
+    departure: "06:15 AM",
+    arrival: "08:15 AM",
+    price: 6500
+  },
+  {
+    id: 2,
+    from: "DEL",
+    to: "BLR",
+    departure: "09:30 AM",
+    arrival: "11:45 AM",
+    price: 7200
+  },
+  {
+    id: 3,
+    from: "DEL",
+    to: "BLR",
+    departure: "01:10 PM",
+    arrival: "03:25 PM",
+    price: 6800
+  },
+  {
+    id: 4,
+    from: "DEL",
+    to: "BLR",
+    departure: "06:00 PM",
+    arrival: "08:20 PM",
+    price: 7500
+  }
+];
     // ✅ store flight before login
     req.session.pendingFlightId = req.body.flight_id;
 

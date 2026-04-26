@@ -36,43 +36,33 @@ async function saveFlightsToDB(flights) {
 
 // 🔍 Main search controller
 exports.searchFlights = async (req, res) => {
-  try {
-   const from = resolveCode(req.query.from);
-   const to = resolveCode(req.query.to);
-    const date = req.query.date;
 
-    if (!from || !to || !date) {
-      return res.send("Missing search parameters");
-    }
+  const { from, to } = req.query;
 
-    console.log("SEARCH DATA:", from, to, date);
+  const baseTimes = [
+    ["06:00 AM", "08:00 AM"],
+    ["07:30 AM", "09:45 AM"],
+    ["09:00 AM", "11:15 AM"],
+    ["11:00 AM", "01:20 PM"],
+    ["01:30 PM", "03:50 PM"],
+    ["03:00 PM", "05:20 PM"],
+    ["05:30 PM", "07:45 PM"],
+    ["07:00 PM", "09:20 PM"],
+    ["09:30 PM", "11:50 PM"],
+    ["11:00 PM", "01:15 AM"]
+  ];
 
-    try {
-      // 🌐 1. Try API
-      const flights = await amadeusService.searchFlights(from, to, date);
+  const airlines = ["IndiGo", "Air India", "Vistara", "SpiceJet"];
 
-      if (flights && flights.length > 0) {
-        console.log("✅ API SUCCESS");
+  const flights = baseTimes.map((time, index) => ({
+    id: index + 1,
+    airline: airlines[index % airlines.length],
+    from: from || "DEL",
+    to: to || "BLR",
+    departure: time[0],
+    arrival: time[1],
+    price: 5000 + Math.floor(Math.random() * 3000)
+  }));
 
-        // ✅ FIX 2 (SAVE DATA)
-        await saveFlightsToDB(flights);
-
-        return res.render('flights/results', { flights });
-      }
-
-      throw new Error("No API flights");
-
-    } catch (apiError) {
-      console.log("⚠️ API FAILED → USING DB");
-
-      // 🗄️ 2. Fallback to DB
-      const dbFlights = await flightService.searchFlights(from, to);
-
-      return res.render('flights/results', { flights: dbFlights });
-    }
-
-  } catch (err) {
-    console.error("FINAL ERROR:", err.message);
-    res.send("Something went wrong");
-  }
+  res.render('flights/results', { flights });
 };
