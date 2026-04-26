@@ -35,9 +35,9 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const result = await pool.query(
-      'SELECT * FROM users WHERE email = $1',
-      [email]
-    );
+  'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
+  [name, email, hashedPassword]
+);
 
     if (result.rows.length === 0) {
       return res.send('User not found');
@@ -56,9 +56,23 @@ const loginUser = async (req, res) => {
       name: user.name,
       email: user.email,
     };
+// Redirect back to where user came from (search or booking)
+if (req.session.redirectAfterLogin) {
+  let redirectUrl = req.session.redirectAfterLogin;
 
-  res.redirect('/flights'); // or homepage where user lands
-  } catch (err) {
+  // fix ticket redirect
+  if (redirectUrl.includes('/ticket')) {
+    redirectUrl = '/flights/ticket';
+  }
+
+  req.session.redirectAfterLogin = null;
+
+  return res.redirect(redirectUrl);
+}
+
+// fallback
+res.redirect('/flights'); // or '/flights/search' if you have it
+ } catch (err) {
     console.error(err);
     res.send('Error logging in');
   }

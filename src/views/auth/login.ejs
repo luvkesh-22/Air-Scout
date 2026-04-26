@@ -1,44 +1,137 @@
 <%- include('../partials/header') %>
 
-<div class="max-w-md mx-auto mt-10">
-  
-  <h2 class="text-2xl font-bold mb-6 text-center text-purple-300">
-    Login
-  </h2>
+<div class="min-h-screen relative flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 overflow-hidden">
+  <!-- ✈️ Animated Flight Path -->
 
-  <div class="bg-black/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-6">
-    
-    <form action="/login" method="POST" class="space-y-4">
+<!-- BOTTOM MAIN -->
+<svg class="absolute bottom-0 left-0 w-full h-40 opacity-70 pointer-events-none"
+     viewBox="0 -10 1300 200">
+
+  <path id="flightPath"
+        d="M 0 180 Q 400 40 800 180"
+        stroke="#f59e0b"
+        stroke-width="5"
+        stroke-dasharray="8 6"
+        fill="none"/>
+
+  <text font-size="50" fill="#f59e0b">
+    ✈
+    <animateMotion dur="12s" repeatCount="indefinite">
+      <mpath href="#flightPath"/>
+    </animateMotion>
+  </text>
+</svg>
+
+<!-- ✈️ FULL FLOW PATH -->
+<svg class="absolute inset-0 w-full h-full opacity-70 pointer-events-none"
+     viewBox="0 0 1200 800"
+     preserveAspectRatio="none">
+
+  <!-- LONG CURVE -->
+  <path id="mainPath"
+        d="M -100 100 
+           C 300 50, 400 400, 700 350 
+           S 1100 600, 1300 500"
+        stroke="#f59e0b"
+        stroke-width="5"
+        stroke-dasharray="8 6"
+        fill="none"/>
+
+  <!-- AIRPLANE -->
+  <text font-size="50" fill="#f59e0b">
+    ✈
+    <animateMotion dur="12s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#mainPath"/>
+    </animateMotion>
+  </text>
+
+</svg>
+<svg class="absolute top-0 right-0 w-80 h-80 opacity-70 pointer-events-none z-0"
+     viewBox="-50 30 300 300">
+
+  <path id="topRightPath"
+        d="M 20 40 Q 180 120 280 260"
+        stroke="#f59e0b"
+        stroke-width="5"
+        stroke-dasharray="8 6"
+        fill="none"/>
+
+  <text font-size="50" fill="#f59e0b">
+    ✈
+    <animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#topRightPath"/>
+    </animateMotion>
+  </text>
+
+</svg>
+
+<svg class="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 opacity-70 pointer-events-none z-0"
+     viewBox="0 0 300 300">
+
+  <!-- LOOP PATH -->
+  <path id="loopPath"
+        d="
+        M -80 150
+        C 40 60, 160 40, 220 120
+        C 280 200, 160 280, 80 220
+        C 20 180, 60 140, 220 200
+        "
+        stroke="#fb923c"
+        stroke-width="5"
+        stroke-dasharray="8 6"
+        fill="none"/>
+
+  <!-- AIRPLANE -->
+  <text font-size="50" fill="#fb923c">
+    ✈
+    <animateMotion dur="12s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#loopPath"/>
+    </animateMotion>
+  </text>
+
+</svg>
+<div class="relative z-20 w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
+
+    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
+      Welcome Back ✈️
+    </h2>
+
+   <form action="/auth/login" method="POST">
 
       <input 
         type="email" 
         name="email" 
         placeholder="Email"
-        class="w-full p-2 rounded bg-black/30 border border-purple-400/30 text-white placeholder-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
-        required 
+        class="w-full p-3 rounded-lg border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-400 outline-none"
+        required
       />
 
       <input 
         type="password" 
         name="password" 
         placeholder="Password"
-        class="w-full p-2 rounded bg-black/30 border border-purple-400/30 text-white placeholder-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
-        required 
+        class="w-full p-3 rounded-lg border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-400 outline-none"
+        required
       />
 
       <button 
-        type="submit"
-        class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-2 rounded hover:opacity-90 transition"
-      >
+        class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-lg font-semibold hover:scale-105 transition">
         Login
       </button>
- <p class="text-sm text-center mt-4 text-black/50">
-        Don’t have an account?
-        <a href="/signup" class="text-purple-400 hover:underline">Signup</a>
-        </p> 
+
     </form>
+
+    <p class="text-sm text-center mt-4 text-gray-500">
+      Don’t have an account?
+      <a href="/auth/signup" class="text-orange-500 hover:underline">Signup</a>
+    </p>
+
+    <a href="/auth/google" class="block mt-4">
+      <button class="w-full bg-white border py-2 rounded-lg hover:bg-gray-100">
+        Continue with Google
+      </button>
+    </a>
 
   </div>
 </div>
-
 <%- include('../partials/footer') %>

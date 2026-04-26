@@ -8,13 +8,14 @@
 
 <% bookings.forEach(b => { %>
  <div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-5">
+  
     <p><strong><%= b.from_city %> → <%= b.to_city %></strong></p>
 <p>Departure: <%= b.departure_time %></p>
 <p>Price: ₹<%= b.price %></p>
 <p>Status: <%= b.status %></p>
 
-<form action="/cancel/<%= b.id %>?user_id=<%= 1 %>" method="POST">
-  <button type="submit">Cancel</button>
+<form action="/booking/cancel/<%= b.id %>" method="POST">
+    <button type="submit">Cancel</button>
 </form>
   </div>
   <hr>

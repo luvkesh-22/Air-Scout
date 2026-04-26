@@ -1,26 +1,287 @@
 <%- include('../partials/header') %>
 
-<div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-5">
-  
-  <h2 class="text-3xl font-bold mb-6 text-center text-purple-700">
-    Search Flights
+<script>
+  if (localStorage.theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  }
+</script>
+
+<!-- HERO -->
+<div class="relative h-[300px] w-full overflow-hidden">
+
+  <img 
+    src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05"
+    class="absolute inset-0 w-full h-full object-cover"
+  />
+
+  <div class="absolute inset-0 bg-black/60"></div>
+
+  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
+    
+    <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+  <span class="handwritten ml-2">Domestic & International Flights</span>
+</h1>
+
+    <p class="mt-2 text-white/90 text-lg">
+      Compare fares across airlines
+    </p>
+
+  </div>
+</div>
+
+<!-- MAIN CONTENT START -->
+<div class="bg-gray-100 dark:bg-gray-900 min-h-screen transition duration-300">
+
+
+  <!-- 🟧 TOP STRIP -->
+ <div class="bg-gradient-to-r from-orange-400 to-orange-500 text-white text-center py-5">
+
+  <h2 class="text-xl md:text-xl font-semibold mb-1">
+    Your cheapest flight booking partner ✈️
   </h2>
 
-  <form action="/flights/search" method="POST" class="space-y-4">
+  <p class="text-sm md:text-base text-white/90">
+    ...................................................................................................................................................................................................................................................
+  </p>
 
-    <input type="text" name="from" placeholder="From"
-      class="w-full p-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 outline-none" required />
+</div>
 
-    <input type="text" name="to" placeholder="To"
-      class="w-full p-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 outline-none" required />
+  <!-- 🔍 SEARCH SECTION -->
+  <div class="max-w-6xl mx-auto px-4 -mt-10">
 
-    <input type="date" name="date"
-      class="w-full p-3 border border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-400 outline-none" required />
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8 transition hover:shadow-2xl">
 
-    <button class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition">
-      Search Flights
-    </button>
+      <!-- 🔘 TABS -->
+      <div class="flex gap-6 mb-6 text-sm font-medium">
+        <button class="px-4 py-2 bg-orange-100 text-orange-600 rounded-full">
+          One Way
+        </button>
+        <button class="px-4 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+          Round Trip
+        </button>
+        <button class="px-4 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+          Multi City
+        </button>
+      </div>
 
-  </form>
+      <!-- FORM -->
+      <form action="/flights/search" method="GET"
+        class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+
+        <!-- FROM -->
+        <div>
+          
+          <label class="text-sm text-gray-600 dark:text-gray-300">From</label>
+         <select name="from" required
+  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+
+            <option value="">Select Departure</option>
+            <% airportList.forEach(a => { %>
+              <option value="<%= a.code %>"><%= a.label %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- SWAP -->
+        <div class="flex justify-center items-center">
+          <button type="button" onclick="swapLocations()"
+            class="bg-gray-100 dark:bg-gray-700 p-3 rounded-full hover:scale-110 transition">
+            ↔
+          </button>
+        </div>
+
+        <!-- TO -->
+        <div>
+          <label class="text-sm text-gray-600 dark:text-gray-300">To</label>
+          <select name="to" required
+  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+  
+            <option value="">Select Destination</option>
+            <% airportList.forEach(a => { %>
+              <option value="<%= a.code %>"><%= a.label %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- DATE -->
+        <div>
+          <label class="text-sm text-gray-600 dark:text-gray-300">Departure</label>
+          <input type="date" name="date" required
+         class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+
+        </div>
+
+        <!-- TRAVELLERS (UI ONLY) -->
+       <select name="travellers"
+  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+
+  <option value="1">1 Traveller</option>
+  <option value="2">2 Travellers</option>
+  <option value="3">3 Travellers</option>
+  <option value="4">4 Travellers</option>
+  <option value="5">5 Travellers</option>
+  <option value="6">6 Travellers</option>
+  <option value="7">7 Travellers</option>
+  <option value="8">8 Travellers</option>
+  <option value="9">9 Travellers</option>
+  <option value="10">10 Travellers</option>
+
+</select>
+        <!-- CTA -->
+        <div class="md:col-span-5 mt-4">
+          <button
+            class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-xl font-semibold text-lg shadow-lg hover:scale-105 hover:shadow-xl transition">
+            Search Flights ✈️
+          </button>
+        </div>
+      </form>
+
+      <!-- 🎟 SPECIAL FARES -->
+      <div class="mt-6">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+          SPECIAL FARES
+        </p>
+
+        <div class="flex flex-wrap gap-2">
+          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Regular</span>
+          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Student</span>
+          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Armed Forces</span>
+          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Senior Citizen</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 📉 BELOW SECTION -->
+  <div class="max-w-6xl mx-auto px-4 mt-10">
+
+    <!-- OFFER -->
+    <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-6 rounded-xl shadow mb-8">
+      <h3 class="text-lg font-semibold">
+        Get ₹500 off on your first booking ✈️
+      </h3>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition">
+        <h3 class="font-semibold mb-2">Best Prices</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Compare fares across airlines instantly.
+        </p>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition">
+        <h3 class="font-semibold mb-2">Secure Booking</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Safe and reliable transactions.
+        </p>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition">
+        <h3 class="font-semibold mb-2">Instant Confirmation</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Book flights instantly without delay.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ⚙️ SCRIPTS -->
+<script>
+  const from = document.querySelector('select[name="from"]');
+  const to = document.querySelector('select[name="to"]');
+
+  function swapLocations() {
+    const temp = from.value;
+    from.value = to.value;
+    to.value = temp;
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    html.classList.toggle('dark');
+    localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
+  }
+
+  from.addEventListener('change', () => {
+    if (from.value === to.value) {
+      alert("Departure and destination cannot be same");
+      to.value = "";
+    }
+  });
+</script>
+</div> <!-- CLOSE MAIN CONTENT -->
+<div class="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 text-sm py-10 px-6 leading-7">
+
+<div class="bg-gray-100 dark:bg-gray-900 py-12 px-6">
+  <div class="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8 text-gray-600 dark:text-gray-300 text-sm leading-7 space-y-8">
+  <div class="max-w-7xl mx-auto space-y-8">
+
+    <div>
+      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Popular Flight Routes</h3>
+      <p>
+        Delhi to Mumbai | Mumbai to Goa | Bangalore to Delhi | Hyderabad to Chennai | Pune to Jaipur |
+        Kolkata to Delhi | Chennai to Bangalore | Ahmedabad to Delhi | Lucknow to Mumbai |
+        Chandigarh to Goa | Jaipur to Bangalore | Kochi to Delhi
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Top Cities in India</h3>
+      <p>
+        Delhi | Mumbai | Bangalore | Chennai | Hyderabad | Kolkata | Pune | Jaipur | Goa |
+        Ahmedabad | Kochi | Chandigarh | Indore | Nagpur | Lucknow
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Popular International Destinations</h3>
+      <p>
+        Dubai | Singapore | London | Paris | Bangkok | Bali | Maldives | New York |
+        Sydney | Toronto | Tokyo | Kuala Lumpur | Istanbul | Rome | Amsterdam
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Best Airlines</h3>
+      <p>
+        IndiGo | Air India | Vistara | SpiceJet | Emirates | Qatar Airways |
+        Lufthansa | Singapore Airlines | British Airways | Etihad Airways
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Travel Tips</h3>
+      <p>
+        Book flights early to get the best deals. Compare fares across airlines before booking.
+        Travel during off-season to save money. Use filters to find the best flight options.
+        Always check baggage policies and cancellation terms before booking.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Why Choose Air Scout?</h3>
+      <p>
+        Air Scout helps you compare flight prices instantly across multiple airlines.
+        We provide secure booking, instant confirmations, and the best deals for your travel.
+        Our platform is designed for speed, reliability, and ease of use.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Explore More</h3>
+      <p>
+        Cheap Flights | Flight Deals | Last Minute Flights | Business Class Flights |
+        International Flights | Domestic Flights | Holiday Packages | Travel Insurance
+      </p>
+    </div>
+
+  </div>
 </div>
 <%- include('../partials/footer') %>

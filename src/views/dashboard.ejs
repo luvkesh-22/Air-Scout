@@ -9,7 +9,7 @@
     <p>Departure: <%= f.departure_time %></p>
     <p>Price: ₹<%= f.price %></p>
 
-    <form action="/book" method="POST">
+<form action="/flights/ticket" method="POST">
       <input type="hidden" name="user_id" value="1">
       <input type="hidden" name="flight_id" value="<%= f.id %>">
       <button type="submit">Book</button>

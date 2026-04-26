@@ -1,33 +1,167 @@
-<!DOCTYPE html>
-<html>
 <head>
   <title>Air Scout</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Tailwind -->
+  <!-- ✅ Tailwind CDN (CONFIG INLINE) -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {}
+      }
+    }
+  </script>
+
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.7s ease-out;
+}
+</style>
+<style>
+.snow-container {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.snowflake {
+  color: rgba(255,255,255,0.9);
+  font-size: 14px;
+  text-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+.snowflake {
+  position: absolute;
+  top: -10px;
+ color: rgba(255,255,255,0.9);
+  font-size: 14px;
+  opacity: 0.8;
+  animation: fall linear infinite;
+  text-shadow: 0 0 8px rgba(255,255,255,0.9);
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+</style>
+
+<style>
+    
+.handwritten {
+  font-family: 'Pacifico', cursive;
+  color: #f59e0b;
+  display: inline-block;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // 🌙 THEME TOGGLE
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+
+  if (btn && icon) {
+    if (localStorage.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      icon.textContent = '☀️';
+    } else {
+      icon.textContent = '🌙';
+    }
+
+    btn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+
+      if (document.documentElement.classList.contains('dark')) {
+        localStorage.theme = 'dark';
+        icon.textContent = '☀️';
+      } else {
+        localStorage.theme = 'light';
+        icon.textContent = '🌙';
+      }
+    });
+  }
+
+  // ❄️ SNOW EFFECT
+  const container = document.querySelector('.snow-container');
+  if (!container) return;
+
+  for (let i = 0; i < 60; i++) {
+    const snow = document.createElement('div');
+    snow.className = 'snowflake';
+    snow.innerHTML = '❄';
+
+    snow.style.left = Math.random() * 100 + 'vw';
+    snow.style.animationDuration = (5 + Math.random() * 6) + 's';
+    snow.style.fontSize = (10 + Math.random() * 12) + 'px';
+    snow.style.opacity = Math.random();
+
+    container.appendChild(snow);
+  }
+
+});
+</script>
 </head>
 
-<body class="font-[Inter] bg-gradient-to-br from-purple-50 to-indigo-100 min-h-screen">
+<body class="font-[Inter] bg-gray-900 text-white">
+   <div class="w-full flex justify-end items-center gap-4 p-4 bg-black/20"><div class="flex items-center gap-4">
 
-  <!-- NAVBAR -->
-<nav class="bg-black/30 backdrop-blur-md text-white px-6 py-4 flex justify-between items-center shadow-md border-b border-purple-500/20">
+  <!-- NAV LINKS -->
+  <a href="/" class="text-white hover:text-orange-400">Flights</a>
+  <a href="#" class="text-white hover:text-orange-400">Hotels</a>
+  <a href="#" class="text-white hover:text-orange-400">Trains</a>
+  <a href="#" class="text-white hover:text-orange-400">Bus</a>
 
-  <h1 class="text-xl font-bold tracking-wide text-purple-300">
-    ✈️ Air Scout
-  </h1>
+  <!-- MY TRIPS -->
+  <a href="/my-trips"
+     class="text-white hover:text-orange-400 font-medium">
+     My Trips
+  </a>
 
-  <div class="space-x-6 text-sm font-medium">
-    <a href="/" class="hover:text-purple-300 transition">Home</a>
-    <a href="/bookings" class="hover:text-purple-300 transition">My Bookings</a>
-    <a href="/login" class="hover:text-purple-300 transition">Login</a>
-  </div>
+</div>
 
-</nav>
+  <% if (locals.user) { %>
+    <div class="text-white">
+      Welcome, <%= user.name %>
+      <a href="/auth/logout" class="ml-3 text-orange-400">Logout</a>
+    </div>
+  <% } else { %>
+    <a href="/auth/login"
+       class="bg-orange-500 text-white px-4 py-1 rounded-lg hover:bg-orange-600">
+       Login
+    </a>
+  <% } %>
 
-<div class="p-6">
+  <!-- 🌙 TOGGLE HERE -->
+  <button id="themeToggle"
+    class="text-xl bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-lg">
+    <span id="themeIcon">🌙</span>
+  </button>
 
-  <!-- MAIN CONTENT WRAPPER -->
-  <div class="p-6">
+</div>

@@ -1,3 +1,89 @@
-</div>
+<footer class="bg-gray-900 text-gray-400 mt-16">
+
+  <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-4 gap-8">
+
+    <!-- BRAND -->
+    <div>
+      <h2 class="text-white text-lg font-semibold mb-3">Air Scout ✈️</h2>
+      <p class="text-sm">
+        Your one-stop platform for booking flights with ease and confidence.
+      </p>
+    </div>
+
+    <!-- LINKS -->
+    <div>
+      <h3 class="text-white font-medium mb-3">Explore</h3>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/" class="hover:text-white">Flights</a></li>
+        <li><a href="#" class="hover:text-white">Hotels</a></li>
+        <li><a href="#" class="hover:text-white">Trains</a></li>
+        <li><a href="#" class="hover:text-white">Bus</a></li>
+      </ul>
+    </div>
+
+    <!-- SUPPORT -->
+    <div>
+      <h3 class="text-white font-medium mb-3">Support</h3>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#" class="hover:text-white">Help Center</a></li>
+        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+        <li><a href="#" class="hover:text-white">Terms</a></li>
+      </ul>
+    </div>
+
+    <!-- CTA -->
+    <div>
+      <h3 class="text-white font-medium mb-3">Stay Updated</h3>
+      <p class="text-sm mb-3">Get latest deals & offers</p>
+
+      <div class="flex">
+        <input 
+          type="email" 
+          placeholder="Your email"
+          class="w-full px-3 py-2 rounded-l-lg bg-gray-800 border border-gray-700 text-white outline-none"
+        />
+        <button class="bg-orange-500 px-4 rounded-r-lg text-white">
+          Go
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="text-center text-sm border-t border-gray-800 py-4">
+    © 2026 Air Scout. All rights reserved.
+  </div>
+
+</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const toggle = document.getElementById("themeToggle");
+
+  if (!toggle) {
+    console.log("❌ Toggle button not found");
+    return;
+  }
+
+  // Apply saved theme
+  if (localStorage.getItem("theme") === "dark") {
+    document.documentElement.classList.add("dark");
+  }
+
+  toggle.addEventListener("click", function () {
+    document.documentElement.classList.toggle("dark");
+
+    if (document.documentElement.classList.contains("dark")) {
+      localStorage.setItem("theme", "dark");
+    } else {
+      localStorage.setItem("theme", "light");
+    }
+  });
+
+});
+</script>
+
 </body>
 </html>

@@ -1,20 +1,35 @@
 <%- include('../partials/header') %>
 
-<div class="max-w-md mx-auto mt-12">
+<div class="min-h-screen relative flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 overflow-hidden">
 
-  <div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-6">
+  <!-- ✈️ SAME ANIMATIONS (copy-paste from login) -->
+  <svg class="absolute inset-0 w-full h-full opacity-70 pointer-events-none"
+       viewBox="0 0 1200 800" preserveAspectRatio="none">
+    <path id="mainPath"
+          d="M -100 100 C 300 50, 400 400, 700 350 S 1100 600, 1300 500"
+          stroke="#f59e0b" stroke-width="5" stroke-dasharray="8 6" fill="none"/>
+    <text font-size="50" fill="#f59e0b">
+      ✈
+      <animateMotion dur="12s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#mainPath"/>
+      </animateMotion>
+    </text>
+  </svg>
 
-    <h2 class="text-xl font-semibold text-center text-purple-300 mb-6">
+  <!-- 🧾 SIGNUP CARD -->
+  <div class="relative z-20 w-full max-w-md bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl">
+
+    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
       Create Account ✨
     </h2>
 
-    <form action="/signup" method="POST" class="space-y-4">
+    <form action="/auth/signup" method="POST" class="space-y-4">
 
       <input 
         type="text" 
         name="name" 
         placeholder="Full Name"
-        class="w-full p-2 rounded bg-black/10 border border-purple-400/30 text-black placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
+        class="w-full p-3 rounded-lg border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-400 outline-none"
         required
       />
 
@@ -22,7 +37,7 @@
         type="email" 
         name="email" 
         placeholder="Email"
-        class="w-full p-2 rounded bg-black/10 border border-purple-400/30 text-black placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
+        class="w-full p-3 rounded-lg border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-400 outline-none"
         required
       />
 
@@ -30,23 +45,34 @@
         type="password" 
         name="password" 
         placeholder="Password"
-        class="w-full p-2 rounded bg-black/10 border border-purple-400/30 text-black placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none"
+        class="w-full p-3 rounded-lg border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-400 outline-none"
+        required
+      />
+
+      <input 
+        type="password" 
+        name="confirmPassword" 
+        placeholder="Confirm Password"
+        class="w-full p-3 rounded-lg border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-400 outline-none"
         required
       />
 
       <button 
-        type="submit"
-        class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-black py-2 rounded hover:opacity-90 transition"
-      >
-        Signup
+        class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-lg font-semibold hover:scale-105 transition">
+        Sign Up 🚀
       </button>
 
     </form>
 
-    <p class="text-sm text-center mt-4 text-black-300">
+    <p class="text-sm text-center mt-4 text-gray-500">
       Already have an account?
-      <a href="/login" class="text-purple-400 hover:underline">Login</a>
+      <a href="/auth/login" class="text-orange-500 hover:underline">Login</a>
     </p>
+
+    <a href="/auth/google" class="block mt-4">
+<button class="w-full bg-white border py-2 rounded-lg hover:bg-gray-100 hover:shadow-lg hover:shadow-orange-400/50 transition">        Continue with Google
+      </button>
+    </a>
 
   </div>
 </div>

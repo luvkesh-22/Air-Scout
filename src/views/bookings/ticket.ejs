@@ -1,43 +1,102 @@
 <%- include('../partials/header') %>
 
-<div class="max-w-md mx-auto mt-10">
+<div class="min-h-screen flex items-center justify-center px-4">
 
-  <h2 class="text-xl font-bold mb-6 text-center text-purple-300">
-    Confirm Booking
+<div class="min-h-[80vh] flex items-center justify-center px-4">
+  <div class="absolute w-96 h-96 bg-blue-500/20 blur-3xl rounded-full -z-10"></div>
+  <div class="max-w-2xl w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-lg hover:shadow-blue-500/20 transition duration-300">
+  <!-- TITLE -->
+  <h2 class="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">
+    Flight Details ✈️
   </h2>
 
-  <div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-6">
+  <!-- ROUTE -->
+  <div class="text-center mb-6">
+    <p class="text-xl font-semibold text-white">
+      <%= flight.from_code %> → <%= flight.to_code %>
+    </p>
+    <p class="text-sm text-gray-400 mt-1">
+      Your selected flight
+    </p>
+  </div>
 
-    <form action="/book" method="POST" class="space-y-4">
+  <!-- ✈ FLIGHT PATH -->
+  <div class="flex items-center justify-center gap-3 mb-6">
 
- <input type="hidden" name="flight_id" value="<%= flight.id %>" />
+    <div class="text-center">
+      <p class="text-sm text-gray-400">From</p>
+      <p class="text-white font-semibold"><%= flight.from_code %></p>
+    </div>
 
-      <input 
-        type="text" 
-        name="name" 
-        placeholder="Your Name"
-        class="w-full p-2 rounded bg-black/30 border border-purple-400/30 text-white placeholder-gray-300"
-        required 
-      />
+    <div class="flex items-center gap-2 w-40">
 
-      <input 
-        type="email" 
-        name="email" 
-        placeholder="Email"
-        class="w-full p-2 rounded bg-black/30 border border-purple-400/30 text-white placeholder-gray-300"
-        required 
-      />
+      <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
 
-      <button 
-        type="submit"
-        class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-2 rounded hover:opacity-90 transition"
-      >
-        Confirm Booking
-      </button>
+      <div class="flex-1 h-[2px] bg-gray-500 relative">
+        <span class="absolute left-1/2 -translate-x-1/2 -top-3 text-white text-sm">
+          ✈
+        </span>
+      </div>
 
-    </form>
+      <div class="w-0 h-0 border-l-4 border-l-gray-400 border-y-4 border-y-transparent"></div>
+
+    </div>
+
+    <div class="text-center">
+      <p class="text-sm text-gray-400">To</p>
+      <p class="text-white font-semibold"><%= flight.to_code %></p>
+    </div>
 
   </div>
+
+  <!-- INFO -->
+  <div class="space-y-4 text-sm text-gray-300">
+
+    <div class="flex justify-between">
+      <span>Departure</span>
+      <span><%= new Date(flight.departure_time).toLocaleString() %></span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Arrival</span>
+      <span><%= new Date(flight.arrival_time).toLocaleString() %></span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Airline</span>
+      <span><%= flight.airline %></span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Duration</span>
+      <span><%= flight.duration %> mins</span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Stops</span>
+      <span><%= flight.stops === 0 ? "Non-stop" : flight.stops %></span>
+    </div>
+
+  </div>
+
+  <!-- PRICE -->
+  <div class="text-center mt-8">
+    <p class="text-sm text-gray-400">Total Price</p>
+    <p class="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-transparent bg-clip-text">
+      ₹ <%= flight.price %>
+    </p>
+  </div>
+
+  <!-- BUTTON -->
+  <div class="text-center mt-6">
+    <a href="/booking/passenger?flight_id=<%= flight.id %>" 
+       class="inline-block bg-orange-500 hover:bg-orange-400 transition duration-300 px-8 py-3 rounded-xl text-white font-semibold hover:scale-105">
+      Continue Booking →
+    </a>
+  </div>
+
 </div>
+  </div> <!-- card -->
+</div> <!-- wrapper -->
 
 <%- include('../partials/footer') %>
