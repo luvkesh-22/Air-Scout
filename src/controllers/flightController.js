@@ -36,7 +36,6 @@ async function saveFlightsToDB(flights) {
 
 // 🔍 Main search controller
 exports.searchFlights = async (req, res) => {
-
   const { from, to } = req.query;
 
   const baseTimes = [
@@ -64,5 +63,5 @@ exports.searchFlights = async (req, res) => {
     price: 5000 + Math.floor(Math.random() * 3000)
   }));
 
-  res.render('flights/results', { flights });
+res.render('flights', { flights });
 };
