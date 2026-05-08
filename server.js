@@ -55,8 +55,11 @@ app.use("/booking", bookingRoutes);
 
 
 // ✅ HOME (SIMPLE)
+app.get("/flights", (req, res) => {
+  res.redirect("/flights/search");
+});
 app.get("/", (req, res) => {
-  res.redirect("/flights");
+  res.redirect("/flights/search");
 });
 app.get("/hotels", (req, res) => {
   res.render("comingSoon", {
