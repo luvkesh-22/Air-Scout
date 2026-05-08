@@ -1,22 +1,139 @@
 <%- include('../partials/header') %>
 
-<h2>My Bookings</h2>
+<div class="min-h-screen bg-[#06131f] text-white px-4 py-10">
 
-<% if (bookings.length === 0) { %>
-  <p>No bookings found</p>
-<% } %>
+  <!-- Header -->
+  <div class="max-w-6xl mx-auto flex items-center justify-between mb-8">
+    
+    <div>
+      <h1 class="text-3xl font-bold">My Bookings</h1>
+      <p class="text-gray-400 mt-1">
+        View and manage your flight reservations
+      </p>
+    </div>
 
-<% bookings.forEach(b => { %>
- <div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-5">
-  
-    <p><strong><%= b.from_city %> → <%= b.to_city %></strong></p>
-<p>Departure: <%= b.departure_time %></p>
-<p>Price: ₹<%= b.price %></p>
-<p>Status: <%= b.status %></p>
-
-<form action="/booking/cancel/<%= b.id %>" method="POST">
-    <button type="submit">Cancel</button>
-</form>
+    <a
+href="/flights/search"
+      class="bg-orange-500 hover:bg-orange-400 transition px-5 py-3 rounded-xl font-semibold shadow-lg"
+    >
+      ← Back Home
+    </a>
   </div>
-  <hr>
-<% }) %>
+
+  <!-- Empty State -->
+  <% if (bookings.length === 0) { %>
+
+    <div class="max-w-2xl mx-auto bg-white/5 border border-white/10 rounded-2xl p-10 text-center">
+      <h2 class="text-2xl font-semibold mb-3">
+        No bookings yet
+      </h2>
+
+      <p class="text-gray-400 mb-6">
+        Search flights and make your first booking.
+      </p>
+
+      <a
+        href="/"
+        class="bg-orange-500 hover:bg-orange-400 px-6 py-3 rounded-xl font-semibold"
+      >
+        Search Flights
+      </a>
+    </div>
+
+  <% } %>
+
+  <!-- Booking Cards -->
+  <div class="max-w-6xl mx-auto grid gap-6">
+
+    <% bookings.forEach(b => { %>
+
+      <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
+
+        <!-- Top Row -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+          <div>
+            <p class="text-sm text-gray-400 mb-1">
+              Flight Route
+            </p>
+
+            <h2 class="text-3xl font-bold tracking-wide">
+              <%= b.from_city %>
+              <span class="text-orange-400">→</span>
+              <%= b.to_city %>
+            </h2>
+          </div>
+
+          <div class="text-left md:text-right">
+            <p class="text-sm text-gray-400 mb-1">
+              Ticket Price
+            </p>
+
+            <p class="text-3xl font-bold text-orange-400">
+              ₹<%= b.price %>
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-white/10 my-6"></div>
+
+        <!-- Details -->
+        <div class="grid md:grid-cols-3 gap-6">
+
+          <div>
+            <p class="text-sm text-gray-400 mb-1">
+              Departure
+            </p>
+
+            <p class="font-medium">
+              <%= new Date(b.departure_time).toLocaleString() %>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-400 mb-1">
+              Passenger
+            </p>
+
+            <p class="font-medium">
+              <%= b.passenger_name %>
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-gray-400 mb-1">
+              Booking Status
+            </p>
+
+            <span class="inline-flex items-center px-4 py-1 rounded-full bg-green-500/20 text-green-400 font-semibold">
+              Confirmed
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex justify-end">
+
+          <form action="/booking/cancel/<%= b.id %>" method="POST">
+            <button
+              type="submit"
+              class="bg-red-500/20 hover:bg-red-500/30 border border-red-400/20 text-red-300 px-5 py-2 rounded-xl transition"
+            >
+              Cancel Booking
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+
+    <% }) %>
+
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

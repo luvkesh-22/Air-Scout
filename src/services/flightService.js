@@ -33,11 +33,11 @@ function formatFlight(flight) {
 }
 
 // 🔍 Search DB (FINAL FIX)
-exports.searchFlights = async (from, to) => {
+exports.searchFlights = async (fromCode, toCode) => {
   const result = await pool.query(
     `SELECT * FROM flights 
      WHERE from_code = $1 AND to_code = $2`,
-    [from, to]
+[fromCode, toCode] 
   );
 
   return result.rows.map(formatFlight);

@@ -1,67 +1,50 @@
-const amadeusService = require('../services/amadeusService');
 const flightService = require('../services/flightService');
-const pool = require('../config/db'); // ✅ FIX 1
-const { resolveCode } = require('../utils/airports');
-console.log("AIRPORT MODULE:", require('../utils/airports'));
+const amadeusService = require('../services/amadeusService');
+exports.searchFlights = async (req, res) => {
+  console.log("🔥 CONTROLLER HIT");
 
+let { from, to, date } = req.query;
 
-// 💾 Save API flights into DB
-async function saveFlightsToDB(flights) {
-  for (const f of flights) {
-    try {
-      const segment = f.itineraries[0].segments[0];
-
-      await pool.query(
-        `INSERT INTO flights 
-        (from_code, to_code, departure_time, arrival_time, price, airline, duration, stops)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
-        ON CONFLICT DO NOTHING`,
-        [
-          segment.departure.iataCode,
-          segment.arrival.iataCode,
-          new Date(segment.departure.at), // ✅ FIX 3
-          new Date(segment.arrival.at),
-          parseInt(f.price.total),
-          segment.carrierCode,
-          180, // keep simple for now
-          segment.numberOfStops || 0
-        ]
-      );
-
-    } catch (err) {
-      console.log("Insert skipped:", err.message);
-    }
-  }
+// fallback date (today + 1 day)
+if (!date) {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  date = d.toISOString().split("T")[0];
 }
 
-// 🔍 Main search controller
-exports.searchFlights = async (req, res) => {
-  const { from, to } = req.query;
+  console.log("FROM:", from);
+  console.log("TO:", to);
 
-  const baseTimes = [
-    ["06:00 AM", "08:00 AM"],
-    ["07:30 AM", "09:45 AM"],
-    ["09:00 AM", "11:15 AM"],
-    ["11:00 AM", "01:20 PM"],
-    ["01:30 PM", "03:50 PM"],
-    ["03:00 PM", "05:20 PM"],
-    ["05:30 PM", "07:45 PM"],
-    ["07:00 PM", "09:20 PM"],
-    ["09:30 PM", "11:50 PM"],
-    ["11:00 PM", "01:15 AM"]
-  ];
+  // ❌ prevent empty search crash
+  if (!from || !to) {
+    return res.render("flights/search", {
+      airportList: require("../utils/airports")
+    });
+  }
 
-  const airlines = ["IndiGo", "Air India", "Vistara", "SpiceJet"];
+  try {
+  const fromCode = from;
+  const toCode = to;
 
-  const flights = baseTimes.map((time, index) => ({
-    id: index + 1,
-    airline: airlines[index % airlines.length],
-    from: from || "DEL",
-    to: to || "BLR",
-    departure: time[0],
-    arrival: time[1],
-    price: 5000 + Math.floor(Math.random() * 3000)
-  }));
+  let flights = [];
 
-res.render('flights', { flights });
+  try {
+    // 🔥 TRY API FIRST
+    flights = await amadeusService.searchFlights(fromCode, toCode, date);
+    console.log("API FLIGHTS:", flights.length);
+
+  } catch (apiError) {
+    console.error("API FAILED → USING DB");
+
+    // 🔥 FALLBACK TO DB
+    flights = await flightService.searchFlights(fromCode, toCode);
+    console.log("DB FLIGHTS:", flights.length);
+  }
+
+  return res.render("flights/results", { flights });
+
+} catch (err) {
+  console.error("FINAL ERROR:", err);
+  return res.render("flights/results", { flights: [] });
+}
 };

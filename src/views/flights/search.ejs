@@ -65,49 +65,60 @@
       </div>
 
       <!-- FORM -->
-      <form action="/flights/search" method="GET"
-        class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+  <form action="/flights/search/results" method="GET"
+  class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+      <!-- FROM -->
+<div>
+  <label class="text-sm text-gray-600 dark:text-gray-300">From</label>
 
-        <!-- FROM -->
-        <div>
-          
-          <label class="text-sm text-gray-600 dark:text-gray-300">From</label>
-         <select name="from" required
-  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+  <input 
+    type="text" 
+    name="from"
+    list="airportList"
+    placeholder="Select or type city"
+    class="w-full mt-1 p-3 border rounded-xl bg-white text-black dark:bg-gray-800 dark:text-white"
+    required
+  />
+</div>
 
-            <option value="">Select Departure</option>
-            <% airportList.forEach(a => { %>
-              <option value="<%= a.code %>"><%= a.label %></option>
-            <% }) %>
-          </select>
-        </div>
+<!-- SWAP -->
+<div class="flex justify-center items-center">
+  <button type="button"
+    class="bg-gray-100 dark:bg-gray-700 p-3 rounded-full hover:scale-110 transition">
+    ↔
+  </button>
+</div>
 
-        <!-- SWAP -->
-        <div class="flex justify-center items-center">
-          <button type="button" onclick="swapLocations()"
-            class="bg-gray-100 dark:bg-gray-700 p-3 rounded-full hover:scale-110 transition">
-            ↔
-          </button>
-        </div>
+<!-- TO -->
+<div>
+  <label class="text-sm text-gray-600 dark:text-gray-300">To</label>
 
-        <!-- TO -->
-        <div>
-          <label class="text-sm text-gray-600 dark:text-gray-300">To</label>
-          <select name="to" required
-  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
-  
-            <option value="">Select Destination</option>
-            <% airportList.forEach(a => { %>
-              <option value="<%= a.code %>"><%= a.label %></option>
-            <% }) %>
-          </select>
-        </div>
+  <input 
+    type="text" 
+    name="to"
+    list="airportList"
+    placeholder="Select or type city"
+    class="w-full mt-1 p-3 border rounded-xl bg-white text-black dark:bg-gray-800 dark:text-white"
+    required
+  />
+</div>
 
+<!-- SHARED DATALIST -->
+<datalist id="airportList">
+  <% airportList.forEach(a => { %>
+    <option value="<%= a.code %>"><%= a.label %></option>
+  <% }) %>
+</datalist>
         <!-- DATE -->
         <div>
           <label class="text-sm text-gray-600 dark:text-gray-300">Departure</label>
-          <input type="date" name="date" required
-         class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+<input 
+  type="date" 
+  name="date" 
+  required
+  min="<%= new Date().toISOString().split('T')[0] %>"
+  value="<%= new Date().toISOString().split('T')[0] %>"
+  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
 
         </div>
 
@@ -192,30 +203,7 @@
 
 </div>
 
-<!-- ⚙️ SCRIPTS -->
-<script>
-  const from = document.querySelector('select[name="from"]');
-  const to = document.querySelector('select[name="to"]');
 
-  function swapLocations() {
-    const temp = from.value;
-    from.value = to.value;
-    to.value = temp;
-  }
-
-  function toggleTheme() {
-    const html = document.documentElement;
-    html.classList.toggle('dark');
-    localStorage.theme = html.classList.contains('dark') ? 'dark' : 'light';
-  }
-
-  from.addEventListener('change', () => {
-    if (from.value === to.value) {
-      alert("Departure and destination cannot be same");
-      to.value = "";
-    }
-  });
-</script>
 </div> <!-- CLOSE MAIN CONTENT -->
 <div class="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 text-sm py-10 px-6 leading-7">
 
@@ -284,4 +272,5 @@
 
   </div>
 </div>
+
 <%- include('../partials/footer') %>

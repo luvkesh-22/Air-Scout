@@ -4,7 +4,7 @@ const router = express.Router();
 const razorpay = require("../config/razorpay");
 const pool = require("../config/db");
 
-const { isAuthenticated } = require("../middleware/authMiddleware");
+const { requireAuth } = require("../middleware/authMiddleware");
 
 const {
   getMyBookings,
@@ -18,18 +18,32 @@ const {
 
 
 // ✅ BOOKINGS
-router.get("/bookings", isAuthenticated, getMyBookings);
-router.post("/cancel/:id", isAuthenticated, cancelBooking);
+router.get("/bookings", requireAuth, getMyBookings);
+router.post("/cancel/:id", requireAuth, cancelBooking);
 
+router.post("/select-flight", (req, res) => {
+  const { id, from, to, price, airline } = req.body;
 
+  req.session.selectedFlight = {
+    id,
+    from,
+    to,
+    price,
+    airline
+  };
+
+  console.log("✈️ Flight selected:", req.session.selectedFlight);
+
+  res.redirect("/booking/passenger");
+});
 // ✅ FLOW
-router.get("/passenger", isAuthenticated, showPassengerForm);
-router.post("/passenger", isAuthenticated, savePassenger);
+router.get("/passenger", requireAuth, showPassengerForm);
+router.post("/passenger", requireAuth, savePassenger);
 
-router.get("/payment", isAuthenticated, showPaymentPage);
+router.get("/payment", requireAuth, showPaymentPage);
 
 
-router.get("/success", isAuthenticated, showSuccessPage);
+router.get("/success", requireAuth, showSuccessPage);
 
 
 router.post("/create-order", async (req, res) => {

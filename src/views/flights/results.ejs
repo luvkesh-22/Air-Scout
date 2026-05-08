@@ -2,7 +2,7 @@
 
 <div class="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 ">
 
-  <div class="max-w-6xl mx-auto px-4">
+<div class="max-w-6xl mx-auto px-4 py-10">
 
     <!-- HEADER + SORT -->
     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
@@ -59,138 +59,106 @@
       };
     %>
 
-    <% if (flights.length === 0) { %>
+ <% if (!flights || flights.length === 0) { %>
       <p class="text-center text-gray-500 dark:text-gray-300">
         No flights found 😕
       </p>
     <% } %>
 
     <!-- RESULTS -->
-    <div id="flightList" class="space-y-6">
+    <!-- RESULTS -->
+<div id="flightList" class="space-y-6">
 
-      <% flights.forEach(flight => { 
-        const segment = flight.itineraries[0].segments[0];
+  <% flights.forEach(flight => { %>
 
-        const depTime = new Date(segment.departure.at);
-        const arrTime = new Date(segment.arrival.at);
+    <% if (!flight.itineraries || !flight.itineraries[0]) { return; } %>
 
-        const durationMs = arrTime - depTime;
-        const durationHrs = Math.floor(durationMs / (1000 * 60 * 60));
-        const durationMin = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
+    <% const segment = flight.itineraries[0].segments[0]; %>
 
-        const airline = airlineData[segment.carrierCode] || { 
-          name: segment.carrierCode,
-          logo: "https://via.placeholder.com/40"
-        };
-      %>
+    <% const dep = new Date(segment.departure.at); %>
+    <% const arr = new Date(segment.arrival.at); %>
 
-<div class="flight-card bg-white/90 dark:bg-[#1E293B] p-5 rounded-xl border border-white/10 shadow-md backdrop-blur-md transition hover:shadow-xl"           data-price="<%= flight.price.total %>">
+    <div class="glass rounded-2xl p-6 flex justify-between items-center glass-hover">
 
-<div class="flex flex-col md:flex-row justify-between items-center gap-6 md:items-center">
-          <!-- AIRLINE -->
-          <div class="flex items-center gap-4">
-<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow">
+      <!-- LEFT -->
+      <div>
+        <p class="text-gray-400 text-sm">
+          Flight ID: <%= flight.id %>
+        </p>
 
-  <% if (airline.name === "IndiGo") { %>
-    <svg width="24" height="24" viewBox="0 0 24 24">
-      <path d="M4 12L20 4L12 20L10 14L4 12Z" fill="#1E3A8A"/>
-    </svg>
+        <div class="flex items-center gap-6 mt-2">
 
-  <% } else if (airline.name === "Air India") { %>
-    <svg width="24" height="24" viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="8" fill="#DC2626"/>
-    </svg>
+          <div>
+            <p class="text-lg font-bold">
+              <%= segment.departure.iataCode %>
+            </p>
 
-  <% } else if (airline.name === "Vistara") { %>
-    <svg width="24" height="24" viewBox="0 0 24 24">
-      <path d="M12 4L18 20H6L12 4Z" fill="#7C3AED"/>
-    </svg>
-
-  <% } else { %>
-    <svg width="24" height="24" viewBox="0 0 24 24">
-      <rect x="6" y="6" width="12" height="12" rx="3" fill="#14B8A6"/>
-    </svg>
-  <% } %>
-
-</div>            
-            <div>
-              <p class="font-semibold text-gray-800 dark:text-white">
-                <%= airline.name %>
-              </p>
-              <p class="text-sm text-gray-500">
-                Flight ID: <%= flight.id %>
-              </p>
-            </div>
+            <p class="text-sm text-gray-400">
+              <%= dep.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
+            </p>
           </div>
 
-          <!-- TIMING -->
-<div class="flex items-center gap-10 flex-1 justify-center">
-              <div class="text-center">
-              <p class="font-bold text-lg"><%= segment.departure.iataCode %></p>
-              <p class="text-sm text-gray-500">
-                <%= depTime.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
-              </p>
-            </div>
+          <div class="text-gray-400 text-xl">→</div>
 
-           <div class="flex items-center gap-2 w-40">
+          <div>
+            <p class="text-lg font-bold">
+              <%= segment.arrival.iataCode %>
+            </p>
 
-  <!-- LEFT DOT -->
-  <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
-
-  <!-- LINE -->
-  <div class="flex-1 h-[2px] bg-gray-500 relative">
-
-    <!-- PLANE -->
-    <span class="absolute left-1/2 -translate-x-1/2 -top-3 text-white text-sm">
-      ✈
-    </span>
-
-  </div>
-
-  <!-- RIGHT ARROW -->
-  <div class="w-0 h-0 border-l-4 border-l-gray-400 border-y-4 border-y-transparent"></div>
-
-</div>
-
-            <div class="text-center">
-              <p class="font-bold text-lg"><%= segment.arrival.iataCode %></p>
-              <p class="text-sm text-gray-500">
-                <%= arrTime.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
-              </p>
-            </div>
-
+            <p class="text-sm text-gray-400">
+              <%= arr.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
+            </p>
           </div>
 
-          <!-- PRICE -->
-  <<div class="flex flex-col items-center border border-white/10 rounded-xl p-4 bg-white/5 backdrop-blur-sm">
-
-  <p class="text-[11px] text-gray-400 mb-1">per traveler</p>
-
-  <p class="text-2xl font-bold text-white">
-    ₹ <%= flight.price.total %>
-  </p>
-
-  <form action="/flights/ticket" method="POST" class="mt-3">
-    <input type="hidden" name="flight_id" value="<%= flight.id %>">
-
-    <button class="bg-orange-400 px-5 py-2 rounded-lg text-white font-semibold transition duration-300 hover:bg-orange-300 hover:scale-105">
-      Book Now
-    </button>
-  </form>
-
-</div>
-</div>
         </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="text-right">
+
+        <p class="text-sm text-gray-400">
+          per traveler
+        </p>
+
+        <p class="text-2xl font-bold text-orange-400">
+          ₹ <%= flight.price.total %>
+        </p>
+
+        <form action="/booking/select-flight" method="POST">
+
+      <input type="hidden" name="id" value="<%= flight.id %>">
+      
+      <input type="hidden" name="from" value="<%= segment.departure.iataCode %>">
+
+      <input type="hidden" name="to" value="<%= segment.arrival.iataCode %>">
+
+      <input type="hidden" name="departure_time" value="<%= segment.departure.at %>">
+
+      <input type="hidden" name="arrival_time" value="<%= segment.arrival.at %>">
+
+      <input type="hidden" name="price" value="<%= flight.price.total %>">
+
+      <input type="hidden" name="airline" value="<%= airlineData[segment.carrierCode]?.name || 'Air Scout Airways' %>">
+          <button
+            class="mt-2 px-5 py-2 bg-gradient-to-r from-orange-400 to-pink-500 rounded-lg text-white glow hover:scale-105 transition">
+
+            Book Now
+
+          </button>
+
+        </form>
 
       </div>
 
-      <% }) %>
-
     </div>
 
-  </div>
+  <% }) %>
 
 </div>
+
+</div>
+
+</div> 
 
 <!-- SORT SCRIPT -->
 <script>

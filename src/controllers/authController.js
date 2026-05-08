@@ -23,6 +23,7 @@ const signupUser = async (req, res) => {
     );
 
     res.send('Signup successful');
+
   } catch (err) {
     console.error(err);
     res.send('Error signing up');
@@ -34,11 +35,10 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const result = await pool.query(
-  'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
-  [name, email, hashedPassword]
+const result = await pool.query(
+  'SELECT * FROM users WHERE email = $1',
+  [email]
 );
-
     if (result.rows.length === 0) {
       return res.send('User not found');
     }
@@ -56,14 +56,10 @@ const loginUser = async (req, res) => {
       name: user.name,
       email: user.email,
     };
-// Redirect back to where user came from (search or booking)
+// Redirect user back to original page
 if (req.session.redirectAfterLogin) {
-  let redirectUrl = req.session.redirectAfterLogin;
 
-  // fix ticket redirect
-  if (redirectUrl.includes('/ticket')) {
-    redirectUrl = '/flights/ticket';
-  }
+  const redirectUrl = req.session.redirectAfterLogin;
 
   req.session.redirectAfterLogin = null;
 
@@ -71,7 +67,7 @@ if (req.session.redirectAfterLogin) {
 }
 
 // fallback
-res.redirect('/flights'); // or '/flights/search' if you have it
+res.redirect('/flights/search');// or '/flights/search' if you have it
  } catch (err) {
     console.error(err);
     res.send('Error logging in');

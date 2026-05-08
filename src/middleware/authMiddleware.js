@@ -1,8 +1,17 @@
-function isAuthenticated(req, res, next) {
-  if (!req.session.user) {
-    return res.redirect('/auth/login');
-  }
-  next();
-}
+const requireAuth = (req, res, next) => {
 
-module.exports = { isAuthenticated };
+  // Logged in
+  if (req.user || req.session.user) {
+    return next();
+  }
+
+  // Save original URL
+  req.session.redirectAfterLogin = req.originalUrl;
+
+  // Redirect to login
+  return res.redirect('/auth/login');
+};
+
+module.exports = {
+  requireAuth
+};

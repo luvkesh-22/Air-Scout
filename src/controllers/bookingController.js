@@ -10,28 +10,33 @@ exports.getMyBookings = async (req, res) => {
         b.id,
         b.passenger_name,
         b.email,
+
         f.from_code AS from_city, 
         f.to_code AS to_city, 
         f.departure_time, 
-        f.price, 
-        b.status
+        f.price,
+        f.airline
+
        FROM bookings b
-       JOIN flights f ON b.flight_id = f.id
-       WHERE b.user_id = $1`,
+
+       JOIN flights f 
+       ON b.flight_id = f.id
+
+       WHERE b.user_id = $1
+
+       ORDER BY b.id DESC`,
       [user_id]
     );
 
-    res.render("bookings/myBookings", { bookings: result.rows });
+    res.render("bookings/myBookings", {
+      bookings: result.rows
+    });
 
   } catch (error) {
     console.log(error);
     res.send("Error loading bookings");
   }
 };
-
-
-// ❌ REMOVE OLD bookFlight COMPLETELY (we don't use it anymore)
-
 
 // ✅ CANCEL BOOKING
 exports.cancelBooking = async (req, res) => {
@@ -40,10 +45,8 @@ exports.cancelBooking = async (req, res) => {
     const user_id = req.session.user.id;
 
     const result = await pool.query(
-      `UPDATE bookings 
-       SET status = 'cancelled' 
-       WHERE id = $1 AND user_id = $2
-       RETURNING *`,
+      `DELETE FROM bookings
+       WHERE id = $1 AND user_id = $2`,
       [booking_id, user_id]
     );
 
@@ -51,14 +54,13 @@ exports.cancelBooking = async (req, res) => {
       return res.send("Unauthorized action");
     }
 
-res.redirect('/booking/bookings');
+    res.redirect('/booking/bookings');
 
   } catch (err) {
     console.error(err);
     res.send('Error cancelling booking');
   }
 };
-
 
 // ✅ SHOW PASSENGER FORM
 exports.showPassengerForm = (req, res) => {
