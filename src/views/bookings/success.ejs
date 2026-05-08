@@ -1,0 +1,107 @@
+<%- include('../partials/header') %>
+
+<div class="snow-container fixed inset-0 z-[5] pointer-events-none"></div>
+
+<div class="relative z-10 min-h-screen flex items-center justify-center px-4">
+
+  <div class="max-w-md w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl text-center animate-fadeUp">
+
+    <div class="text-green-400 text-5xl mb-4">✔</div>
+
+    <h2 class="text-2xl font-bold text-white mb-2">
+      Booking Confirmed!
+    </h2>
+
+    <p class="text-gray-400 mb-6">
+      Your ticket has been successfully booked ✈️
+    </p>
+
+ <!-- ticket card -->
+<div class="bg-gray-800/50 rounded-xl p-5 border border-gray-700 text-left mb-6">
+
+  <!-- TOP -->
+  <div class="flex items-center justify-between mb-4">
+
+    <div>
+      <p class="text-white font-semibold text-lg">
+        <%= booking.flight.from %> → <%= booking.flight.to %>
+      </p>
+
+      <p class="text-xs text-gray-400 mt-1">
+        <%= booking.flight.airline || "Air Scout Airways" %>
+      </p>
+    </div>
+
+    <div class="text-right">
+      <p class="text-xs text-gray-400">
+        Booking ID
+      </p>
+
+      <p class="text-green-400 font-semibold">
+        #<%= booking.id %>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- PASSENGER -->
+  <div class="space-y-2 text-sm">
+
+    <div class="flex justify-between">
+      <span class="text-gray-400">Passenger</span>
+
+      <span class="text-white">
+        <%= booking.passenger.name %>
+      </span>
+    </div>
+
+    <div class="flex justify-between">
+      <span class="text-gray-400">Email</span>
+
+      <span class="text-white text-right">
+        <%= booking.passenger.email %>
+      </span>
+    </div>
+
+    <div class="flex justify-between">
+      <span class="text-gray-400">Status</span>
+
+      <span class="text-green-400">
+        Confirmed
+      </span>
+    </div>
+
+  </div>
+
+  <!-- PRICE -->
+  <div class="border-t border-gray-700 mt-4 pt-4 flex justify-between items-center">
+
+    <span class="text-gray-400 text-sm">
+      Total Paid
+    </span>
+
+    <span class="text-orange-400 font-bold text-2xl">
+      ₹ <%= booking.flight.price %>
+    </span>
+
+  </div>
+<p class="text-xs text-gray-500 mt-4">
+  You can manage or cancel your booking anytime from My Bookings.
+</p>
+</div>
+    <!-- CTA -->
+    <a href="/booking/bookings"
+      class="block w-full bg-orange-500 hover:bg-orange-400 
+      transition py-3 rounded-xl text-white font-semibold">
+      View My Bookings →
+    </a>
+
+  </div>
+
+</div>
+<script>
+  setTimeout(() => {
+    console.log("Booking success page loaded");
+  }, 1000);
+</script>
+<%- include('../partials/footer') %>

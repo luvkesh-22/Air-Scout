@@ -1,38 +1,187 @@
 <%- include('../partials/header') %>
 
-<h2 class="text-2xl font-bold mb-6 text-purple-700">Available Flights</h2>
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 ">
 
-<% if (flights.length === 0) { %>
-  <p class="text-gray-600">No flights found</p>
-<% } %>
+<div class="max-w-6xl mx-auto px-4 py-10">
 
-<div class="grid gap-5">
-<% flights.forEach(flight => { %>
+    <!-- HEADER + SORT -->
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
 
-  <div class="bg-white/10 backdrop-blur-lg border border-purple-400/20 rounded-xl shadow-lg p-5">
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+        Available Flights ✈️
+      </h2>
 
-    <div>
-      <p class="text-lg font-bold text-purple-700">
-        <%= flight.from_city %> → <%= flight.to_city %>
-      </p>
-      <p class="text-gray-500 text-sm">Flight ID: <%= flight.id %></p>
-      <p class="text-green-600 font-semibold text-lg">₹ <%= flight.price %></p>
+      <!-- SORT -->
+      <select id="sortPrice" 
+        class="p-2 rounded-lg border dark:bg-gray-800 dark:text-white">
+        <option value="">Sort</option>
+        <option value="low">Price: Low → High</option>
+        <option value="high">Price: High → Low</option>
+      </select>
+
     </div>
 
-   <form action="/ticket" method="POST">
-      <input type="hidden" name="flight_id" value="<%= flight.id %>" />
+    <!-- FILTER BAR -->
+    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow mb-6 flex flex-wrap gap-4">
 
-      <input type="number" name="user_id" placeholder="ID"
-        class="border border-purple-200 p-2 rounded w-20 focus:ring-2 focus:ring-purple-400 outline-none" required />
-
-      <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">
-        Book
+      <button class="px-4 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm">
+        Morning
       </button>
-    </form>
 
-  </div>
+      <button class="px-4 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm">
+        Afternoon
+      </button>
 
-<% }) %>
+      <button class="px-4 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm">
+        Evening
+      </button>
+
+    </div>
+
+    <%
+      const airlineData = {
+        "6E": {
+          name: "IndiGo",
+          logo: "https://upload.wikimedia.org/wikipedia/commons/6/69/IndiGo_Logo.svg"
+        },
+        "AI": {
+          name: "Air India",
+          logo: "https://upload.wikimedia.org/wikipedia/commons/5/5b/Air_India_Logo.svg"
+        },
+        "UK": {
+          name: "Vistara",
+          logo: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Vistara_Logo.svg"
+        },
+        "QP": {
+          name: "Akasa Air",
+          logo: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Akasa_Air_Logo.svg"
+        }
+      };
+    %>
+
+ <% if (!flights || flights.length === 0) { %>
+      <p class="text-center text-gray-500 dark:text-gray-300">
+        No flights found 😕
+      </p>
+    <% } %>
+
+    <!-- RESULTS -->
+    <!-- RESULTS -->
+<div id="flightList" class="space-y-6">
+
+  <% flights.forEach(flight => { %>
+
+    <% if (!flight.itineraries || !flight.itineraries[0]) { return; } %>
+
+    <% const segment = flight.itineraries[0].segments[0]; %>
+
+    <% const dep = new Date(segment.departure.at); %>
+    <% const arr = new Date(segment.arrival.at); %>
+
+    <div class="glass rounded-2xl p-6 flex justify-between items-center glass-hover">
+
+      <!-- LEFT -->
+      <div>
+        <p class="text-gray-400 text-sm">
+          Flight ID: <%= flight.id %>
+        </p>
+
+        <div class="flex items-center gap-6 mt-2">
+
+          <div>
+            <p class="text-lg font-bold">
+              <%= segment.departure.iataCode %>
+            </p>
+
+            <p class="text-sm text-gray-400">
+              <%= dep.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
+            </p>
+          </div>
+
+          <div class="text-gray-400 text-xl">→</div>
+
+          <div>
+            <p class="text-lg font-bold">
+              <%= segment.arrival.iataCode %>
+            </p>
+
+            <p class="text-sm text-gray-400">
+              <%= arr.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="text-right">
+
+        <p class="text-sm text-gray-400">
+          per traveler
+        </p>
+
+        <p class="text-2xl font-bold text-orange-400">
+          ₹ <%= flight.price.total %>
+        </p>
+
+        <form action="/booking/select-flight" method="POST">
+
+      <input type="hidden" name="id" value="<%= flight.id %>">
+      
+      <input type="hidden" name="from" value="<%= segment.departure.iataCode %>">
+
+      <input type="hidden" name="to" value="<%= segment.arrival.iataCode %>">
+
+      <input type="hidden" name="departure_time" value="<%= segment.departure.at %>">
+
+      <input type="hidden" name="arrival_time" value="<%= segment.arrival.at %>">
+
+      <input type="hidden" name="price" value="<%= flight.price.total %>">
+
+      <input type="hidden" name="airline" value="<%= airlineData[segment.carrierCode]?.name || 'Air Scout Airways' %>">
+          <button
+            class="mt-2 px-5 py-2 bg-gradient-to-r from-orange-400 to-pink-500 rounded-lg text-white glow hover:scale-105 transition">
+
+            Book Now
+
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  <% }) %>
+
 </div>
+
+</div>
+
+</div> 
+
+<!-- SORT SCRIPT -->
+<script>
+  const sortSelect = document.getElementById('sortPrice');
+  const container = document.getElementById('flightList');
+
+  sortSelect.addEventListener('change', () => {
+    const cards = Array.from(document.querySelectorAll('.flight-card'));
+
+    cards.sort((a, b) => {
+      const priceA = Number(a.dataset.price);
+      const priceB = Number(b.dataset.price);
+
+      return sortSelect.value === 'low'
+        ? priceA - priceB
+        : priceB - priceA;
+    });
+
+    container.innerHTML = '';
+    cards.forEach(card => container.appendChild(card));
+  });
+</script>
+</div> <!-- flex row -->
+</div> <!-- flight-card -->
 
 <%- include('../partials/footer') %>

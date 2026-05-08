@@ -1,0 +1,42 @@
+<h2>Flight Results</h2>
+
+<% if (flights && flights.length > 0) { %>
+
+  <% flights.forEach(flight => { %>
+
+    <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+
+      <p>
+        <%= flight.itineraries[0].segments[0].departure.iataCode %>
+        →
+        <%= flight.itineraries[0].segments[0].arrival.iataCode %>
+      </p>
+
+      <p>
+        Departure:
+        <%= flight.itineraries[0].segments[0].departure.at %>
+      </p>
+
+      <p>
+        Arrival:
+        <%= flight.itineraries[0].segments[0].arrival.at %>
+      </p>
+
+      <p>
+        Airline:
+        <%= flight.itineraries[0].segments[0].carrierCode %>
+      </p>
+
+      <p>
+        Price: ₹<%= flight.price.total %>
+      </p>
+
+    </div>
+
+  <% }) %>
+
+<% } else { %>
+
+  <p>No flights found</p>
+
+<% } %>

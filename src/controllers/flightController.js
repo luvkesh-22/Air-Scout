@@ -1,33 +1,50 @@
-const pool = require('../config/db');
-
+const flightService = require('../services/flightService');
+const amadeusService = require('../services/amadeusService');
 exports.searchFlights = async (req, res) => {
-  try {
-    const { from, to, date } = req.body;
+  console.log("🔥 CONTROLLER HIT");
 
-    console.log("BODY:", req.body);
-    console.log("Searching:", from, to);
+let { from, to, date } = req.query;
 
-    const result = await pool.query(
-      `SELECT * FROM flights 
-       WHERE LOWER(from_city) LIKE LOWER($1) 
-       AND LOWER(to_city) LIKE LOWER($2)`,
-      [`%${from.trim()}%`, `%${to.trim()}%`]
-    );
+// fallback date (today + 1 day)
+if (!date) {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  date = d.toISOString().split("T")[0];
+}
 
-    const flights = result.rows;
+  console.log("FROM:", from);
+  console.log("TO:", to);
 
-    console.log("FILTERED FLIGHTS:", flights);
-
-    // ✅ KEEP render (DO NOT CHANGE)
-    return res.render("flights/results", { flights });
-
-  } catch (error) {
-    console.error("Search Error:", error.message);
-
-    // ✅ STILL render (not json)
-    return res.status(500).render("flights/results", { 
-      flights: [],
-      error: "Something went wrong"
+  // ❌ prevent empty search crash
+  if (!from || !to) {
+    return res.render("flights/search", {
+      airportList: require("../utils/airports")
     });
   }
+
+  try {
+  const fromCode = from;
+  const toCode = to;
+
+  let flights = [];
+
+  try {
+    // 🔥 TRY API FIRST
+    flights = await amadeusService.searchFlights(fromCode, toCode, date);
+    console.log("API FLIGHTS:", flights.length);
+
+  } catch (apiError) {
+    console.error("API FAILED → USING DB");
+
+    // 🔥 FALLBACK TO DB
+    flights = await flightService.searchFlights(fromCode, toCode);
+    console.log("DB FLIGHTS:", flights.length);
+  }
+
+  return res.render("flights/results", { flights });
+
+} catch (err) {
+  console.error("FINAL ERROR:", err);
+  return res.render("flights/results", { flights: [] });
+}
 };

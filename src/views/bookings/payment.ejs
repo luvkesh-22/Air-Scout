@@ -1,0 +1,166 @@
+<%- include('../partials/header') %>
+
+<!-- SNOW BG -->
+<div class="snow-container fixed inset-0 z-[5] pointer-events-none"></div>
+
+<div class="relative z-10 min-h-screen flex items-center justify-center px-4">
+
+  <div class="w-full max-w-4xl grid md:grid-cols-2 gap-6 animate-fadeUp">
+
+    <!-- LEFT: SUMMARY -->
+    <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
+
+      <h3 class="text-lg font-semibold text-gray-300 mb-4">
+        Flight Summary ✈️
+      </h3>
+<div class="mb-5 flex items-center gap-3">
+
+  <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+    ✈️
+  </div>
+
+  <div>
+    <p class="text-white font-semibold">
+      <%= flight.airline || "Air Scout Airways" %>
+    </p>
+
+    <p class="text-xs text-gray-400">
+      Flight ID: <%= flight.id %>
+    </p>
+  </div>
+
+</div>
+      <div class="text-2xl font-bold mb-2">
+<%= flight.from %> → <%= flight.to %>
+      </div>
+
+    <div class="flex items-center justify-between mb-6">
+
+  <div class="text-gray-400 text-sm">
+    Economy • Non-stop • <%= flight.duration || '2h 45m' %>
+  </div>
+
+  <div class="bg-orange-500/20 text-orange-300 px-3 py-1 rounded-full text-xs">
+    Saver Fare
+  </div>
+
+</div>
+      <!-- route line -->
+      <div class="flex items-center gap-2 mb-6">
+        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+        <div class="flex-1 h-[2px] bg-gray-600 relative">
+          <span class="absolute left-1/2 -translate-x-1/2 text-xs">✈️</span>
+        </div>
+        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+      </div>
+
+      <div class="flex justify-between text-gray-400 text-sm">
+        <span>Departure</span>
+        <span>
+<%= flight.departure_time
+  ? new Date(flight.departure_time).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  : '08:30 AM'
+%>        </span>
+      </div>
+
+      <div class="flex justify-between text-gray-400 text-sm mb-6">
+        <span>Arrival</span>
+        <span>
+<%= flight.arrival_time
+  ? new Date(flight.arrival_time).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  : '11:15 AM'
+%>        </span>
+      </div>
+
+      <div class="text-orange-400 text-3xl font-bold">
+        ₹ <%= flight.price %>
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT: PAYMENT CARD -->
+    <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
+
+      <h2 class="text-xl font-bold text-purple-300 mb-6">
+        Payment Details 💳
+      </h2>
+
+      <!-- passenger -->
+      <div class="mb-6 space-y-2 text-sm text-gray-300">
+        <p><span class="text-gray-400">Name:</span> <%= passenger.name %></p>
+        <p><span class="text-gray-400">Email:</span> <%= passenger.email %></p>
+      </div>
+
+      <!-- payment box -->
+      <div class="bg-gray-800/50 rounded-xl p-4 mb-6 border border-gray-700">
+        <div class="flex justify-between text-gray-400 text-sm">
+          <span>Ticket Price</span>
+          <span>₹ <%= flight.price %></span>
+        </div>
+
+        <div class="flex justify-between text-gray-400 text-sm">
+          <span>Convenience Fee</span>
+          <span>₹ 0</span>
+        </div>
+
+        <div class="border-t border-gray-600 my-3"></div>
+
+        <div class="flex justify-between text-white font-semibold text-lg">
+          <span>Total</span>
+          <span>₹ <%= flight.price %></span>
+        </div>
+      </div>
+
+      <!-- PAY BUTTON -->
+      <button onclick="payNow()"
+        class="w-full bg-gradient-to-r from-orange-500 to-orange-600 
+        hover:from-orange-400 hover:to-orange-500
+        transition duration-300 transform hover:scale-[1.03] active:scale-[0.98]
+        text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-orange-500/30">
+        Pay Securely →
+      </button>
+
+  <div class="flex justify-center gap-5 text-xs text-gray-400 mt-5">
+
+  <span>🔒 Secure Payment</span>
+
+  <span>⚡ Instant Confirmation</span>
+
+  <span>💳 Razorpay Trusted</span>
+
+</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Razorpay -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+async function payNow() {
+  const res = await fetch("/booking/payment-success", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      razorpay_payment_id: "demo_" + Date.now()
+    })
+  });
+
+  if (res.ok) {
+    window.location.href = "/booking/success";
+  } else {
+    alert("Booking failed");
+  }
+}
+</script>

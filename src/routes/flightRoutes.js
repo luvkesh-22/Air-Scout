@@ -1,47 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const pool = require('../config/db');
+const airports = require("../utils/airports");
 
-// ✅ IMPORT CONTROLLER (VERY IMPORTANT)
-const { searchFlights } = require('../controllers/flightController');
+const flightController = require("../controllers/flightController");
 
-// 🏠 HOME PAGE
-router.get('/', (req, res) => {
-  console.log("HOME ROUTE HIT");
-  res.render('flights/search');
+// 👇 ADD THIS
+router.get("/search", (req, res) => {
+res.render("flights/search", { airportList: airports.airportList });
 });
 
-// 🎯 DASHBOARD
-router.get('/dashboard', async (req, res) => {
-  console.log("DASHBOARD HIT 🔥");
-
-  try {
-    const result = await pool.query('SELECT * FROM flights');
-    res.render('dashboard', { flights: result.rows });
-  } catch (err) {
-    console.error(err);
-    res.send('Error loading dashboard');
-  }
-});
-router.post('/ticket', async (req, res) => {
-  const { flight_id } = req.body;
-
-  try {
-    const result = await pool.query(
-      'SELECT * FROM flights WHERE id = $1',
-      [flight_id]
-    );
-
-    const flight = result.rows[0];
-
-    res.render('bookings/ticket', { flight });
-
-  } catch (err) {
-    console.error(err);
-    res.send('Error loading ticket');
-  }
-});
-// ✅🔥 THIS WAS MISSING / WRONG
-router.post('/flights/search', searchFlights);
+// 👇 CHANGE THIS
+router.get("/search/results", flightController.searchFlights);
 
 module.exports = router;

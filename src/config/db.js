@@ -1,11 +1,12 @@
-const { Pool } = require('pg');
+const { Pool } = require("pg");
+
+const isProduction = process.env.NODE_ENV === "production";
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'flight_app',
-  password: '222004',
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: isProduction
+    ? { rejectUnauthorized: false } // for Neon / Render
+    : false // for local PostgreSQL
 });
-
+console.log("DB URL:", process.env.DATABASE_URL);
 module.exports = pool;

@@ -1,33 +1,208 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
   <title>Air Scout</title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  tailwind.config = {
+    darkMode: 'class'
+  }
+</script>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* 🌙 Glass Base */
+.glass {
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* 🌞 Light mode glass */
+.light .glass {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ✨ Hover */
+.glass-hover:hover {
+  transform: translateY(-4px) scale(1.01);
+  transition: all 0.25s ease;
+}
+
+/* 💎 Glow */
+.glow {
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
+}
+</style>
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeUp {
+  animation: fadeUp 0.7s ease-out;
+}
+</style>
+<style>
+.snow-container {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.snowflake {
+  color: rgba(255,255,255,0.9);
+  font-size: 14px;
+  text-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+.snowflake {
+  position: absolute;
+  top: -10px;
+ color: rgba(255,255,255,0.9);
+  font-size: 14px;
+  opacity: 0.8;
+  animation: fall linear infinite;
+  text-shadow: 0 0 8px rgba(255,255,255,0.9);
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+</style>
+
+<style>
+    
+.handwritten {
+  font-family: 'Pacifico', cursive;
+  color: #f59e0b;
+  display: inline-block;
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // 🌙 THEME TOGGLE
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+
+  
+
+  // ❄️ SNOW EFFECT
+  const container = document.querySelector('.snow-container');
+  if (!container) return;
+
+  for (let i = 0; i < 60; i++) {
+    const snow = document.createElement('div');
+    snow.className = 'snowflake';
+    snow.innerHTML = '❄';
+
+    snow.style.left = Math.random() * 100 + 'vw';
+    snow.style.animationDuration = (5 + Math.random() * 6) + 's';
+    snow.style.fontSize = (10 + Math.random() * 12) + 'px';
+    snow.style.opacity = Math.random();
+
+    container.appendChild(snow);
+  }
+
+});
+
+</script>
 </head>
 
-<body class="font-[Inter] bg-gradient-to-br from-purple-50 to-indigo-100 min-h-screen">
+<body class="font-[Inter] bg-[#06131f] text-white min-h-screen overflow-x-hidden">
 
-  <!-- NAVBAR -->
-<nav class="bg-black/30 backdrop-blur-md text-white px-6 py-4 flex justify-between items-center shadow-md border-b border-purple-500/20">
+<nav class="glass rounded-2xl shadow-xl px-6 py-4 flex items-center justify-between glass-hover max-w-7xl mx-auto mt-4">
 
-  <h1 class="text-xl font-bold tracking-wide text-purple-300">
-    ✈️ Air Scout
-  </h1>
+  <!-- LEFT -->
+  <div class="flex items-center gap-6">
 
-  <div class="space-x-6 text-sm font-medium">
-    <a href="/" class="hover:text-purple-300 transition">Home</a>
-    <a href="/bookings" class="hover:text-purple-300 transition">My Bookings</a>
-    <a href="/login" class="hover:text-purple-300 transition">Login</a>
+  <a href="/flights/search"
+    class="text-white hover:text-orange-400 transition">
+    Flights
+  </a>
+
+  <a href="/hotels"
+    class="text-white hover:text-orange-400 transition">
+    Hotels
+  </a>
+
+  <a href="/trains"
+    class="text-white hover:text-orange-400 transition">
+    Trains
+  </a>
+
+  <a href="/bus"
+    class="text-white hover:text-orange-400 transition">
+    Bus
+  </a>
+
+  <a href="/booking/bookings"
+    class="text-white hover:text-orange-400 font-medium transition">
+    My Trips
+  </a>
+
+</div>
+  <!-- RIGHT -->
+  <div class="flex items-center gap-4">
+
+    <% if (locals.user) { %>
+
+      <div class="text-white">
+        Welcome, <%= locals.user.name %>
+
+        <a href="/auth/logout"
+          class="ml-3 text-orange-400">
+          Logout
+        </a>
+      </div>
+
+   <% } else { %>
+
+  <div class="flex items-center gap-3">
+
+    <a href="/auth/login"
+      class="bg-white/10 text-white px-4 py-2 rounded-xl hover:bg-white/20 transition">
+      Login
+    </a>
+
+    <a href="/auth/signup"
+      class="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:scale-105 transition">
+      Signup
+    </a>
+
+  </div>
+
+<% } %>
+
+    <button id="themeToggle"
+      class="px-3 py-1 rounded-lg bg-gradient-to-r from-orange-400 to-pink-500 glow">
+      🌙
+    </button>
+
   </div>
 
 </nav>
-
-<div class="p-6">
-
-  <!-- MAIN CONTENT WRAPPER -->
-  <div class="p-6">

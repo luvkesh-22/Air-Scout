@@ -1,0 +1,77 @@
+<%- include('./partials/header') %>
+
+<div class="min-h-screen bg-[#06131f] text-white flex items-center justify-center px-4">
+
+  <div class="max-w-2xl w-full text-center">
+
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-400/20 text-orange-300 px-4 py-2 rounded-full mb-6">
+      ✈️ Air Scout Expansion
+    </div>
+
+    <!-- Heading -->
+    <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+      <span class="text-orange-400">
+        <%= service %>
+      </span>
+      <br>
+      Coming Soon
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="text-gray-400 text-lg md:text-xl leading-relaxed mb-10">
+      We’re currently building a premium
+      <span class="text-white font-semibold">
+        <%= service %>
+      </span>
+      booking experience for Air Scout users.
+    </p>
+
+    <!-- Features -->
+    <div class="grid md:grid-cols-3 gap-4 mb-10">
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <p class="text-2xl mb-2">⚡</p>
+        <h3 class="font-semibold mb-1">
+          Fast Booking
+        </h3>
+        <p class="text-sm text-gray-400">
+          Seamless checkout experience
+        </p>
+      </div>
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <p class="text-2xl mb-2">💳</p>
+        <h3 class="font-semibold mb-1">
+          Secure Payments
+        </h3>
+        <p class="text-sm text-gray-400">
+          Trusted and protected transactions
+        </p>
+      </div>
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-5">
+        <p class="text-2xl mb-2">🌍</p>
+        <h3 class="font-semibold mb-1">
+          Smart Travel
+        </h3>
+        <p class="text-sm text-gray-400">
+          Better prices and smarter planning
+        </p>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <a
+      href="/flights/search"
+      class="inline-block bg-orange-500 hover:bg-orange-400 transition px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl"
+    >
+      ← Back to Flights
+    </a>
+
+  </div>
+
+</div>
+
+<%- include('./partials/footer') %>

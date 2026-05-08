@@ -1,0 +1,152 @@
+[
+  {
+    "code": "DEL",
+    "city": "New Delhi",
+    "country": "India",
+    "airport": "Indira Gandhi International Airport"
+  },
+  {
+    "code": "BOM",
+    "city": "Mumbai",
+    "country": "India",
+    "airport": "Chhatrapati Shivaji Maharaj International Airport"
+  },
+  {
+    "code": "BLR",
+    "city": "Bengaluru",
+    "country": "India",
+    "airport": "Kempegowda International Airport"
+  },
+  {
+    "code": "MAA",
+    "city": "Chennai",
+    "country": "India",
+    "airport": "Chennai International Airport"
+  },
+  {
+    "code": "CCU",
+    "city": "Kolkata",
+    "country": "India",
+    "airport": "Netaji Subhas Chandra Bose International Airport"
+  },
+  {
+    "code": "HYD",
+    "city": "Hyderabad",
+    "country": "India",
+    "airport": "Rajiv Gandhi International Airport"
+  },
+  {
+    "code": "DXB",
+    "city": "Dubai",
+    "country": "United Arab Emirates",
+    "airport": "Dubai International Airport"
+  },
+  {
+    "code": "AUH",
+    "city": "Abu Dhabi",
+    "country": "United Arab Emirates",
+    "airport": "Zayed International Airport"
+  },
+  {
+    "code": "DOH",
+    "city": "Doha",
+    "country": "Qatar",
+    "airport": "Hamad International Airport"
+  },
+  {
+    "code": "RUH",
+    "city": "Riyadh",
+    "country": "Saudi Arabia",
+    "airport": "King Khalid International Airport"
+  },
+  {
+    "code": "LHR",
+    "city": "London",
+    "country": "United Kingdom",
+    "airport": "Heathrow Airport"
+  },
+  {
+    "code": "CDG",
+    "city": "Paris",
+    "country": "France",
+    "airport": "Charles de Gaulle Airport"
+  },
+  {
+    "code": "FRA",
+    "city": "Frankfurt",
+    "country": "Germany",
+    "airport": "Frankfurt Airport"
+  },
+  {
+    "code": "AMS",
+    "city": "Amsterdam",
+    "country": "Netherlands",
+    "airport": "Amsterdam Airport Schiphol"
+  },
+  {
+    "code": "IST",
+    "city": "Istanbul",
+    "country": "Turkey",
+    "airport": "Istanbul Airport"
+  },
+  {
+    "code": "FCO",
+    "city": "Rome",
+    "country": "Italy",
+    "airport": "Leonardo da Vinci International Airport"
+  },
+  {
+    "code": "JFK",
+    "city": "New York",
+    "country": "United States",
+    "airport": "John F. Kennedy International Airport"
+  },
+  {
+    "code": "LAX",
+    "city": "Los Angeles",
+    "country": "United States",
+    "airport": "Los Angeles International Airport"
+  },
+  {
+    "code": "ORD",
+    "city": "Chicago",
+    "country": "United States",
+    "airport": "O'Hare International Airport"
+  },
+  {
+    "code": "YYZ",
+    "city": "Toronto",
+    "country": "Canada",
+    "airport": "Toronto Pearson International Airport"
+  },
+  {
+    "code": "GRU",
+    "city": "São Paulo",
+    "country": "Brazil",
+    "airport": "São Paulo–Guarulhos International Airport"
+  },
+  {
+    "code": "SIN",
+    "city": "Singapore",
+    "country": "Singapore",
+    "airport": "Singapore Changi Airport"
+  },
+  {
+    "code": "HKG",
+    "city": "Hong Kong",
+    "country": "Hong Kong SAR",
+    "airport": "Hong Kong International Airport"
+  },
+  {
+    "code": "NRT",
+    "city": "Tokyo",
+    "country": "Japan",
+    "airport": "Narita International Airport"
+  },
+  {
+    "code": "SYD",
+    "city": "Sydney",
+    "country": "Australia",
+    "airport": "Sydney Kingsford Smith Airport"
+  }
+]
