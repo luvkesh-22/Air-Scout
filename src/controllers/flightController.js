@@ -23,8 +23,11 @@ if (!date) {
   }
 
   try {
-  const fromCode = from;
-  const toCode = to;
+const fromCode = from.split(" - ")[0].trim();
+const toCode = to.split(" - ")[0].trim();
+
+console.log("FROM CODE:", fromCode);
+console.log("TO CODE:", toCode);
 
   let flights = [];
 
@@ -33,13 +36,21 @@ if (!date) {
     flights = await amadeusService.searchFlights(fromCode, toCode, date);
     console.log("API FLIGHTS:", flights.length);
 
-  } catch (apiError) {
-    console.error("API FAILED → USING DB");
+  }catch (apiError) {
 
-    // 🔥 FALLBACK TO DB
-    flights = await flightService.searchFlights(fromCode, toCode);
-    console.log("DB FLIGHTS:", flights.length);
-  }
+  console.error(
+    "API FAILED:",
+    apiError.response?.data || apiError.message
+  );
+
+  // 🔥 FALLBACK TO DB
+  flights = await flightService.searchFlights(
+    fromCode,
+    toCode
+  );
+
+  console.log("DB FLIGHTS:", flights.length);
+}
 
   return res.render("flights/results", { flights });
 

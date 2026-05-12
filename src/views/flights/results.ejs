@@ -1,19 +1,19 @@
 <%- include('../partials/header') %>
 
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 ">
+<div class="min-h-screen bg-gradient-to-br from-[#020617] via-[#071226] to-[#0b1120] py-10 text-white">
 
 <div class="max-w-6xl mx-auto px-4 py-10">
 
     <!-- HEADER + SORT -->
     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
 
-      <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+      <h2 class="text-2xl font-bold text-white dark:text-white">
         Available Flights ✈️
       </h2>
 
       <!-- SORT -->
       <select id="sortPrice" 
-        class="p-2 rounded-lg border dark:bg-gray-800 dark:text-white">
+        class="p-2 rounded-lg border border-white/10 bg-white/10 text-white backdrop-blur-md">
         <option value="">Sort</option>
         <option value="low">Price: Low → High</option>
         <option value="high">Price: High → Low</option>
@@ -22,18 +22,15 @@
     </div>
 
     <!-- FILTER BAR -->
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow mb-6 flex flex-wrap gap-4">
+    <div class="glass dark:bg-gray-800 p-4 rounded-xl shadow mb-6 flex flex-wrap gap-4">
 
-      <button class="px-4 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm">
-        Morning
+<button class="px-4 py-1 bg-white/10 hover:bg-orange-400/20 rounded-full text-sm text-white transition">        Morning
       </button>
 
-      <button class="px-4 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm">
-        Afternoon
+<button class="px-4 py-1 bg-white/10 hover:bg-orange-400/20 rounded-full text-sm text-white transition">        Afternoon
       </button>
 
-      <button class="px-4 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm">
-        Evening
+<button class="px-4 py-1 bg-white/10 hover:bg-orange-400/20 rounded-full text-sm text-white transition">        Evening
       </button>
 
     </div>
@@ -78,11 +75,11 @@
     <% const dep = new Date(segment.departure.at); %>
     <% const arr = new Date(segment.arrival.at); %>
 
-    <div class="glass rounded-2xl p-6 flex justify-between items-center glass-hover">
-
-      <!-- LEFT -->
+<div 
+  class="flight-card glass rounded-3xl p-6 flex justify-between items-center glass-hover border border-white/10 shadow-2xl backdrop-blur-xl"
+  data-price="<%= flight.price.total %>">      <!-- LEFT -->
       <div>
-        <p class="text-gray-400 text-sm">
+        <p class="text-white/60 text-sm">
           Flight ID: <%= flight.id %>
         </p>
 
@@ -93,19 +90,19 @@
               <%= segment.departure.iataCode %>
             </p>
 
-            <p class="text-sm text-gray-400">
+            <p class="text-sm text-white/60">
               <%= dep.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
             </p>
           </div>
 
-          <div class="text-gray-400 text-xl">→</div>
+          <div class="text-white/60 text-xl">→</div>
 
           <div>
             <p class="text-lg font-bold">
               <%= segment.arrival.iataCode %>
             </p>
 
-            <p class="text-sm text-gray-400">
+            <p class="text-sm text-white/60">
               <%= arr.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) %>
             </p>
           </div>
@@ -116,7 +113,7 @@
       <!-- RIGHT -->
       <div class="text-right">
 
-        <p class="text-sm text-gray-400">
+        <p class="text-sm text-white/60">
           per traveler
         </p>
 
@@ -178,7 +175,7 @@
     });
 
     container.innerHTML = '';
-    cards.forEach(card => container.appendChild(card));
+    cards.forEach(card => container.appendChild(card)); 
   });
 </script>
 </div> <!-- flex row -->

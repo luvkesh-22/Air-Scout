@@ -30,10 +30,8 @@
 </div>
 
 <!-- MAIN CONTENT START -->
-<div class="bg-gray-100 dark:bg-gray-900 min-h-screen transition duration-300">
-
-
-  <!-- 🟧 TOP STRIP -->
+<div class="min-h-screen transition duration-300 bg-gradient-to-br from-[#020617] via-[#071226] to-[#0b1120] text-white">
+    <!-- 🟧 TOP STRIP -->
  <div class="bg-gradient-to-r from-orange-400 to-orange-500 text-white text-center py-5">
 
   <h2 class="text-xl md:text-xl font-semibold mb-1">
@@ -49,82 +47,88 @@
   <!-- 🔍 SEARCH SECTION -->
   <div class="max-w-6xl mx-auto px-4 -mt-10">
 
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8 transition hover:shadow-2xl">
-
+<div class="glass rounded-2xl shadow-2xl p-6 md:p-8 transition hover:shadow-2xl border border-white/10">
       <!-- 🔘 TABS -->
       <div class="flex gap-6 mb-6 text-sm font-medium">
-        <button class="px-4 py-2 bg-orange-100 text-orange-600 rounded-full">
-          One Way
+<button class="px-4 py-2 bg-white/10 text-orange-300 rounded-full">          One Way
         </button>
-        <button class="px-4 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+        <button class="px-4 py-2 text-white/70 hover:bg-white/10rounded-full">
           Round Trip
         </button>
-        <button class="px-4 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+        <button class="px-4 py-2 text-white/70 hover:bg-white/10 rounded-full">
           Multi City
         </button>
       </div>
 
       <!-- FORM -->
-  <form action="/flights/search/results" method="GET"
-  class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+       <form 
+  action="/flights/search/results" 
+  method="GET"
+  class="search-form grid grid-cols-1 md:grid-cols-5 gap-4 items-end"
+>
       <!-- FROM -->
 <div>
-  <label class="text-sm text-gray-600 dark:text-gray-300">From</label>
+  <label class="text-sm text-white/80">From</label>
 
-  <input 
-    type="text" 
-    name="from"
-    list="airportList"
-    placeholder="Select or type city"
-    class="w-full mt-1 p-3 border rounded-xl bg-white text-black dark:bg-gray-800 dark:text-white"
-    required
-  />
+ <input 
+  id="fromInput"
+  type="text" 
+  name="from"
+  list="airportList"
+  placeholder="Select or type city"
+  class="w-full mt-1 p-3 border rounded-xl bg-white text-black dark:bg-gray-800 dark:text-white"
+  required
+/>
 </div>
 
 <!-- SWAP -->
 <div class="flex justify-center items-center">
-  <button type="button"
-    class="bg-gray-100 dark:bg-gray-700 p-3 rounded-full hover:scale-110 transition">
-    ↔
-  </button>
+<button 
+  type="button"
+  id="swapBtn"
+  class="bg-white/10 p-3 rounded-full hover:scale-110 transition">
+  ↔
+</button>
 </div>
 
 <!-- TO -->
 <div>
-  <label class="text-sm text-gray-600 dark:text-gray-300">To</label>
+  <label class="text-sm text-white/80">To</label>
 
-  <input 
-    type="text" 
-    name="to"
-    list="airportList"
-    placeholder="Select or type city"
-    class="w-full mt-1 p-3 border rounded-xl bg-white text-black dark:bg-gray-800 dark:text-white"
-    required
-  />
+<input 
+  id="toInput"
+  type="text" 
+  name="to"
+  list="airportList"
+  placeholder="Select or type city"
+  class="w-full mt-1 p-3 border rounded-xl bg-white text-black dark:bg-gray-800 dark:text-white"
+  required
+/>
 </div>
 
 <!-- SHARED DATALIST -->
 <datalist id="airportList">
   <% airportList.forEach(a => { %>
-    <option value="<%= a.code %>"><%= a.label %></option>
+    <option value="<%= a.code %> - <%= a.label %>"></option>
   <% }) %>
 </datalist>
-        <!-- DATE -->
-        <div>
-          <label class="text-sm text-gray-600 dark:text-gray-300">Departure</label>
-<input 
-  type="date" 
-  name="date" 
-  required
-  min="<%= new Date().toISOString().split('T')[0] %>"
-  value="<%= new Date().toISOString().split('T')[0] %>"
-  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+      <!-- DATE -->
+<div>
+  <label class="text-sm text-white/80">Departure</label>
 
-        </div>
+  <input 
+    type="date"
+    name="date"
+    required
+    min="<%= new Date().toISOString().split('T')[0] %>"
+    value="<%= new Date().toISOString().split('T')[0] %>"
+    class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white/5 text-white border-white/10"
+  />
+</div>
 
         <!-- TRAVELLERS (UI ONLY) -->
        <select name="travellers"
-  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white text-black dark:bg-gray-800 dark:text-white">
+  class="w-full mt-1 p-3 border rounded-xl focus:ring-2 focus:ring-orange-400 outline-none bg-white/5 text-white border-white/10">
 
   <option value="1">1 Traveller</option>
   <option value="2">2 Travellers</option>
@@ -149,15 +153,15 @@
 
       <!-- 🎟 SPECIAL FARES -->
       <div class="mt-6">
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <p class="text-sm text-white/60 mb-2">
           SPECIAL FARES
         </p>
 
         <div class="flex flex-wrap gap-2">
-          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Regular</span>
-          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Student</span>
-          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Armed Forces</span>
-          <span class="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Senior Citizen</span>
+          <span class="px-4 py-2 bg-white/10 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Regular</span>
+          <span class="px-4 py-2 bg-white/10 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Student</span>
+          <span class="px-4 py-2 bg-white/10 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Armed Forces</span>
+          <span class="px-4 py-2 bg-white/10 rounded-full text-sm hover:bg-orange-100 cursor-pointer transition">Senior Citizen</span>
         </div>
       </div>
 
@@ -177,23 +181,23 @@
     <!-- FEATURES -->
     <div class="grid md:grid-cols-3 gap-6">
 
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition">
-        <h3 class="font-semibold mb-2">Best Prices</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+<div class="glass p-6 rounded-xl shadow-xl border border-white/10 hover:scale-105 transition">
+          <h3 class="font-semibold mb-2">Best Prices</h3>
+        <p class="text-sm text-white/60">
           Compare fares across airlines instantly.
         </p>
       </div>
 
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition">
-        <h3 class="font-semibold mb-2">Secure Booking</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+<div class="glass p-6 rounded-xl shadow-xl border border-white/10 hover:scale-105 transition">
+          <h3 class="font-semibold mb-2">Secure Booking</h3>
+        <p class="text-sm text-white/60">
           Safe and reliable transactions.
         </p>
       </div>
 
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow hover:scale-105 transition">
-        <h3 class="font-semibold mb-2">Instant Confirmation</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+<div class="glass p-6 rounded-xl shadow-xl border border-white/10 hover:scale-105 transition">
+          <h3 class="font-semibold mb-2">Instant Confirmation</h3>
+        <p class="text-sm text-white/60">
           Book flights instantly without delay.
         </p>
       </div>
@@ -205,14 +209,13 @@
 
 
 </div> <!-- CLOSE MAIN CONTENT -->
-<div class="bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400 text-sm py-10 px-6 leading-7">
-
-<div class="bg-gray-100 dark:bg-gray-900 py-12 px-6">
-  <div class="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-md p-8 text-gray-600 dark:text-gray-300 text-sm leading-7 space-y-8">
+<div class="bg-gradient-to-br from-[#020617] via-[#071226] to-[#0b1120] text-white/70 text-sm py-10 px-6 leading-7">
+  <div class="py-12 px-6 bg-gradient-to-br from-[#020617] via-[#071226] to-[#0b1120]">
+    <div class="max-w-6xl mx-auto glass rounded-2xl shadow-2xl border border-white/10 p-8  text-sm leading-7 space-y-8">
   <div class="max-w-7xl mx-auto space-y-8">
 
     <div>
-      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Popular Flight Routes</h3>
+      <h3 class="font-semibold text-white mb-2">Popular Flight Routes</h3>
       <p>
         Delhi to Mumbai | Mumbai to Goa | Bangalore to Delhi | Hyderabad to Chennai | Pune to Jaipur |
         Kolkata to Delhi | Chennai to Bangalore | Ahmedabad to Delhi | Lucknow to Mumbai |
@@ -221,7 +224,7 @@
     </div>
 
     <div>
-      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Top Cities in India</h3>
+      <h3 class="font-semibold text-white mb-2">Top Cities in India</h3>
       <p>
         Delhi | Mumbai | Bangalore | Chennai | Hyderabad | Kolkata | Pune | Jaipur | Goa |
         Ahmedabad | Kochi | Chandigarh | Indore | Nagpur | Lucknow
@@ -229,7 +232,7 @@
     </div>
 
     <div>
-      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Popular International Destinations</h3>
+      <h3 class="font-semibold text-white mb-2">Popular International Destinations</h3>
       <p>
         Dubai | Singapore | London | Paris | Bangkok | Bali | Maldives | New York |
         Sydney | Toronto | Tokyo | Kuala Lumpur | Istanbul | Rome | Amsterdam
@@ -237,7 +240,7 @@
     </div>
 
     <div>
-      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Best Airlines</h3>
+      <h3 class="font-semibold text-white mb-2">Best Airlines</h3>
       <p>
         IndiGo | Air India | Vistara | SpiceJet | Emirates | Qatar Airways |
         Lufthansa | Singapore Airlines | British Airways | Etihad Airways
@@ -245,7 +248,7 @@
     </div>
 
     <div>
-      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Travel Tips</h3>
+      <h3 class="font-semibold text-white mb-2">Travel Tips</h3>
       <p>
         Book flights early to get the best deals. Compare fares across airlines before booking.
         Travel during off-season to save money. Use filters to find the best flight options.
@@ -254,7 +257,7 @@
     </div>
 
     <div>
-      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Why Choose Air Scout?</h3>
+      <h3 class="font-semibold text-whitemb-2">Why Choose Air Scout?</h3>
       <p>
         Air Scout helps you compare flight prices instantly across multiple airlines.
         We provide secure booking, instant confirmations, and the best deals for your travel.
@@ -263,7 +266,7 @@
     </div>
 
     <div>
-      <h3 class="font-semibold text-gray-800 dark:text-white mb-2">Explore More</h3>
+      <h3 class="font-semibold text-white mb-2">Explore More</h3>
       <p>
         Cheap Flights | Flight Deals | Last Minute Flights | Business Class Flights |
         International Flights | Domestic Flights | Holiday Packages | Travel Insurance
@@ -272,5 +275,21 @@
 
   </div>
 </div>
+<script>
+  const swapBtn = document.getElementById('swapBtn');
 
+  const fromInput = document.getElementById('fromInput');
+
+  const toInput = document.getElementById('toInput');
+
+  swapBtn.addEventListener('click', () => {
+
+    const temp = fromInput.value;
+
+    fromInput.value = toInput.value;
+
+    toInput.value = temp;
+
+  });
+</script>
 <%- include('../partials/footer') %>

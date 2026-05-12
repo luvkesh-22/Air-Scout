@@ -14,17 +14,41 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-/* 🌙 Glass Base */
+/* 🌙 PREMIUM GLASS */
 .glass {
-  backdrop-filter: blur(14px);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  background: rgba(15, 23, 42, 0.72);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+/* ✨ Premium Form Styling */
+/* 🎯 Scoped search form styling */
+
+/* 🎯 Premium search form */
+
+
+.glass select {
+  background: rgba(255,255,255,0.06);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  color: white;
 }
 
-/* 🌞 Light mode glass */
-.light .glass {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0,0,0,0.08);
+.glass input::placeholder {
+  color: rgba(255,255,255,0.55);
+}
+
+.glass label,
+.glass p,
+.glass span {
+  color: rgba(255,255,255,0.85);
 }
 
 /* ✨ Hover */
@@ -104,11 +128,6 @@
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
-  // 🌙 THEME TOGGLE
-  const btn = document.getElementById('themeToggle');
-  const icon = document.getElementById('themeIcon');
-
   
 
   // ❄️ SNOW EFFECT
@@ -133,10 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 </head>
 
-<body class="font-[Inter] bg-[#06131f] text-white min-h-screen overflow-x-hidden">
-
-<nav class="glass rounded-2xl shadow-xl px-6 py-4 flex items-center justify-between glass-hover max-w-7xl mx-auto mt-4">
-
+<body class="font-[Inter] text-white min-h-screen overflow-x-hidden bg-gradient-to-br from-[#020617] via-[#071226] to-[#0b1120]">
+<nav class="glass rounded-3xl border border-white/10 shadow-2xl px-6 py-4 flex items-center justify-between glass-hover max-w-7xl mx-auto mt-4">
   <!-- LEFT -->
   <div class="flex items-center gap-6">
 
@@ -184,10 +201,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <div class="flex items-center gap-3">
 
-    <a href="/auth/login"
-      class="bg-white/10 text-white px-4 py-2 rounded-xl hover:bg-white/20 transition">
-      Login
-    </a>
+   <a href="/auth/login"
+  class="bg-white/10 text-white px-4 py-2 rounded-xl hover:bg-white/20 transition">
+  Login
+</a>
 
     <a href="/auth/signup"
       class="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-4 py-2 rounded-xl hover:scale-105 transition">
@@ -198,10 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <% } %>
 
-    <button id="themeToggle"
-      class="px-3 py-1 rounded-lg bg-gradient-to-r from-orange-400 to-pink-500 glow">
-      🌙
-    </button>
+   
 
   </div>
 

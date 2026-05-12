@@ -23,7 +23,6 @@ const signupUser = async (req, res) => {
     );
 
     res.send('Signup successful');
-
   } catch (err) {
     console.error(err);
     res.send('Error signing up');
@@ -35,10 +34,11 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-const result = await pool.query(
-  'SELECT * FROM users WHERE email = $1',
-  [email]
-);
+    const result = await pool.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    );
+
     if (result.rows.length === 0) {
       return res.send('User not found');
     }
@@ -47,28 +47,21 @@ const result = await pool.query(
 
     const isMatch = await bcrypt.compare(password, user.password);
 
-    if (!isMatch) {
-      return res.send('Invalid credentials');
-    }
+   if (!user || !user.password) {
+  console.log("❌ USER OR PASSWORD HASH MISSING");
 
-    req.session.user = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    };
-// Redirect user back to original page
-if (req.session.redirectAfterLogin) {
-
-  const redirectUrl = req.session.redirectAfterLogin;
-
-  req.session.redirectAfterLogin = null;
-
-  return res.redirect(redirectUrl);
+  return res.render("auth/login", {
+    error: "Invalid email or password"
+  });
 }
 
-// fallback
-res.redirect('/flights/search');// or '/flights/search' if you have it
- } catch (err) {
+const validPassword = await bcrypt.compare(
+  password,
+  user.password
+);
+
+  res.redirect('/flights'); // or homepage where user lands
+  } catch (err) {
     console.error(err);
     res.send('Error logging in');
   }
